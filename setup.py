@@ -3,14 +3,14 @@ from setuptools import setup, find_packages
 INSTALL_REQUIRES = ["intake >=0.6.6"]
 
 setup(
-    name="aquainsight_plugin_cw3e",
+    name="tethysdash_plugin_cw3e",
     version="0.0.1",
-    description="usace visualization plugins for aquainsight",
-    url="https://github.com/FIRO-Tethys/aquainsight_plugin_cw3e",
+    description="usace visualization plugins for tethysdash",
+    url="https://github.com/FIRO-Tethys/tethysdash_plugin_cw3e",
     maintainer="Corey Krewson",
     maintainer_email="ckrewson@aquaveo.com",
     license="BSD",
-    py_modules=["aquainsight_plugin_cw3e"],
+    py_modules=["tethysdash_plugin_cw3e"],
     packages=find_packages(),
     entry_points={
         "intake.drivers": [
