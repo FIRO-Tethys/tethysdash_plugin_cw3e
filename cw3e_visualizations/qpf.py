@@ -11,7 +11,7 @@ class QPF(base.DataSource):
         "QPF_visualization": QPF_visualizations,
     }
     visualization_group = "CW3E"
-    visualization_label = "QPF"
+    visualization_label = "10-day Model Precipitation Forecasts"
     visualization_type = "image"
 
     def __init__(self, HUC8, QPF_visualization, metadata=None):

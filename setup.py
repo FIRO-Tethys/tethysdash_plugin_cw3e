@@ -15,7 +15,9 @@ setup(
     entry_points={
         "intake.drivers": [
             "cw3e_ar_landfall = cw3e_visualizations.ar_landfall:ARLandfall",
-            "cw3e_qpf = cw3e_visualizations.qpf:QPF"
+            "cw3e_qpf = cw3e_visualizations.qpf:QPF",
+            "cw3e_surface_meterology = cw3e_visualizations.surface_meterology:SurfaceMeterology",
+            "cw3e_integrated_microwave_animations = cw3e_visualizations.integrated_microwave_animations:IntegratedMicrowaveAnimations",
         ]
     },
     package_data={"": ["*.csv", "*.yml", "*.html"]},

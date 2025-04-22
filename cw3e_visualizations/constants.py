@@ -21,6 +21,138 @@ ARLandfallModelTypeOptions = [
 
 ARLandfallModelLocationOptions = ["Coastal", "Foothills", "Inland", "Interior West"]
 
+SurfaceMeterologyLocations = [
+    {
+        "label": "Big Pine-Owens River",
+        "options": [
+            {"value": "BEE", "label": "Beer Can"},
+            {"value": "GDP", "label": "Glider Port"},
+            {"value": "OVH", "label": "Over the Hill"},
+            {"value": "PCC", "label": "Puite Creek Overlook"},
+            {"value": "SUM", "label": "Sore Thumb"},
+            {"value": "VLV", "label": "Valley View"},
+            {"value": "BigPine_SfcMet", "label": "All Surface Met"},
+            {"value": "BigPine_Precip", "label": "All Precip"},
+        ],
+    },
+    {
+        "label": "Central Coastal",
+        "options": [
+            {"value": "SLU", "label": "Santa Lucia"},
+        ],
+    },
+    {
+        "label": "Green/Duwamish",
+        "options": [
+            {"value": "HDW", "label": "Headworks"},
+            {"value": "MYD", "label": "Maywood"},
+            {"value": "YLI", "label": "BNSF Y-Line"},
+            {"value": "Duwamish_SfcMet", "label": "All Surface Met"},
+            {"value": "Duwamish_Precip", "label": "All Precip"},
+        ],
+    },
+    {
+        "label": "Mono Lake",
+        "options": [
+            {"value": "LEE", "label": "Lee Vining"},
+        ],
+    },
+    {
+        "label": "Russian",
+        "options": [
+            {"value": "BCC", "label": "Boyes Creek Canyon"},
+            {"value": "DRW", "label": "Deerwood"},
+            {"value": "HDC", "label": "Hell's Delight"},
+            {"value": "IGM", "label": "Ingram"},
+            {"value": "NCM", "label": "North Cow Mountain"},
+            {"value": "PVC", "label": "Potter Valley Central"},
+            {"value": "PVN", "label": "Potter Valley North"},
+            {"value": "RVY", "label": "Redwood Valley Pineview"},
+            {"value": "WDG", "label": "Windy Gap"},
+            {"value": "Russian_SfcMet", "label": "All Surface Met"},
+            {"value": "Russian_Precip", "label": "All Precip"},
+        ],
+    },
+    {
+        "label": "San Diego",
+        "options": [
+            {"value": "GNH", "label": "Greenhouse"},
+            {"value": "SIO", "label": "Scripps Pier"},
+            {"value": "SanDiego_SfcMet", "label": "All Surface Met"},
+            {"value": "SanDiego_Precip", "label": "All Precip"},
+        ],
+    },
+    {
+        "label": "Santa Ana",
+        "options": [
+            {"value": "BCV", "label": "Beaumont-Cherry Valley"},
+            {"value": "CAT", "label": "Catalina Island"},
+            {"value": "EDS", "label": "Etiwanda Downstream"},
+            {"value": "CUC", "label": "Rancho Cucamonga"},
+            {"value": "SOD", "label": "Seven Oaks Dam"},
+            {"value": "YVW", "label": "Yucaipa Valley"},
+            {"value": "SantaAna_SfcMet", "label": "All Surface Met"},
+            {"value": "SantaAna_Precip", "label": "All Precip"},
+        ],
+    },
+    {
+        "label": "Truckee",
+        "options": [
+            {"value": "MAK", "label": "Martis Creek"},
+        ],
+    },
+    {
+        "label": "Tuolumne/Merced",
+        "options": [
+            {"value": "FMI", "label": "Forty Mile"},
+            {"value": "GFT", "label": "Gin Flat"},
+            {"value": "GPO", "label": "Granite Portal"},
+            {"value": "HRD", "label": "Henness Ridge Drive"},
+            {"value": "HMD", "label": "Hodgdon Meadow"},
+            {"value": "MRG", "label": "Merced Grove"},
+            {"value": "PST", "label": "Priest Reservoir"},
+            {"value": "SMH", "label": "Smith Peak"},
+            {"value": "SUN", "label": "Sunset Inn"},
+            {"value": "WPO", "label": "West Portal"},
+            {"value": "Merced_SfcMet", "label": "All Surface Met"},
+            {"value": "Merced_Precip", "label": "All Precip"},
+        ],
+    },
+    {
+        "label": "Upper San Joaquin",
+        "options": [
+            {"value": "DPP", "label": "Devils Postpile"},
+        ],
+    },
+    {
+        "label": "Upper Yuba/Feather",
+        "options": [
+            {"value": "BVS", "label": "Browns Valley School"},
+            {"value": "DLA", "label": "Downieville"},
+            {"value": "FRC", "label": "Feather River College"},
+            {"value": "HKR", "label": "Heart K Ranch"},
+            {"value": "LBH", "label": "Lower Bath House"},
+            {"value": "NBB", "label": "New Bullards Bar"},
+            {"value": "POR", "label": "Portola"},
+            {"value": "SKY", "label": "Skyline"},
+            {"value": "Yuba_SfcMet", "label": "All Surface Met"},
+            {"value": "Yuba_Precip", "label": "All Precip"},
+        ],
+    },
+    {
+        "label": "Yampa",
+        "options": [
+            {"value": "CPR", "label": "Carpenter Ranch"},
+            {"value": "ELK", "label": "Lower Elk"},
+            {"value": "HOW", "label": "Howe Property"},
+            {"value": "KNT", "label": "Knott Ranch"},
+            {"value": "SKI", "label": "Stagecoach Ski East"},
+            {"value": "Yampa_SfcMet", "label": "All Surface Met"},
+            {"value": "Yampa_Precip", "label": "All Precip"},
+        ],
+    },
+]
+
 CW3EHUC8s = [
     {"value": "14010001", "label": "Colorado Headwaters (14010001)"},
     {"value": "14010002", "label": "Blue (14010002)"},

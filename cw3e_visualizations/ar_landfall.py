@@ -17,7 +17,7 @@ class ARLandfall(base.DataSource):
         "model_location": ARLandfallModelLocationOptions,
     }
     visualization_group = "CW3E"
-    visualization_label = "AR Landfall"
+    visualization_label = "AR Landfall Tool"
     visualization_type = "image"
 
     def __init__(self, data_source, model_type, model_location, metadata=None):
