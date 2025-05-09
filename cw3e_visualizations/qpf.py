@@ -6,6 +6,8 @@ class QPF(base.DataSource):
     container = "python"
     version = "0.0.1"
     name = "cw3e_qpf"
+    visualization_tags = ["cw3e", "qpf", "precipitation", "huc8"]
+    visualization_description = "Depicts the mean areal precipiation (MAP) at different lead times from several numerical weather prediction models and NOAA/NWS forecasts. More information can be found at https://cw3e.ucsd.edu/Projects/QPF/QPF-HUC8.html"
     visualization_args = {
         "HUC8": CW3EHUC8s,
         "QPF_visualization": QPF_visualizations,

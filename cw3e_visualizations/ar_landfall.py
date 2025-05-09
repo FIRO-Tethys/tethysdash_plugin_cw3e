@@ -11,6 +11,18 @@ class ARLandfall(base.DataSource):
     container = "python"
     version = "0.0.1"
     name = "cw3e_ar_landfall"
+    visualization_tags = [
+        "cw3e",
+        "ar",
+        "landfall",
+        "gfs",
+        "gefs",
+        "ecmwf",
+        "wrf",
+        "probability",
+        "coastal",
+    ]
+    visualization_description = "Displays the likelihood and timing of AR conditions at each point on the map in a line. Conditions for multiple models, AR types, and locations can be chosen. More information about individual AR products can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
     visualization_args = {
         "data_source": ARLandfallModelOptions,
         "model_type": ARLandfallModelTypeOptions,

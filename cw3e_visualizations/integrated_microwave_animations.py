@@ -6,6 +6,18 @@ class IntegratedMicrowaveAnimations(base.DataSource):
     container = "python"
     version = "0.0.1"
     name = "cw3e_integrated_microwave_animations"
+    visualization_tags = [
+        "cw3e",
+        "wisconsion",
+        "cimss",
+        "morphed",
+        "integrated",
+        "microwave",
+        "precipitation",
+        "water vapor",
+        "animation",
+    ]
+    visualization_description = "Animated depiction of the total precipitable water from Morphed Integrated Microwave Imagery at CIMSS (University of Wisconsin). More information can be found at https://cw3e.ucsd.edu/satellite/#ARD."
     visualization_args = {
         "domain": ["Global", "NE Pacific", "N Atlantic"],
     }
