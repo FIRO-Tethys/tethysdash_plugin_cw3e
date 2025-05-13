@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "tethysdash_plugin_cw3e"
+authors = [{ name = "Aquaveo LLC", email = "ckrewson@aquaveo.com" }]
+license = { file = "LICENSE" }
+readme = "README.md"
+classifiers = ["License :: OSI Approved :: MIT License"]
+version = "0.0.2"
+description = "CW3E visualizations plugin for tethysdash"
+requires-python = ">=3.9"
+dependencies = [
+    "intake>=0.6.6",
+    "BeautifulSoup4>=4.12.3",
+    "requests>=2.32.3",
+]
+
+[project.urls]
+Homepage = "https://github.com/FIRO-Tethys/tethysdash_plugin_cw3e"
+Issues = "https://github.com/FIRO-Tethys/tethysdash_plugin_cw3e/issues"
+
+[project.entry-points."intake.drivers"]
+cw3e_ar_landfall = "tethysdash_plugin_cw3e.ar_landfall:ARLandfall"
+cw3e_qpf = "tethysdash_plugin_cw3e.qpf:QPF"
+cw3e_surface_meterology = "tethysdash_plugin_cw3e.surface_meterology:SurfaceMeterology"
+cw3e_integrated_microwave_animations = "tethysdash_plugin_cw3e.integrated_microwave_animations:IntegratedMicrowaveAnimations"
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+include = ["*"]
+
+[tool.setuptools.package-data]
+"tethysdash_plugin_cnrfc" = ["static/*.png"]
