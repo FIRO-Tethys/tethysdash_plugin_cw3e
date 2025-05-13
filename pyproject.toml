@@ -36,4 +36,4 @@ zip-safe = false
 include = ["*"]
 
 [tool.setuptools.package-data]
-"tethysdash_plugin_cnrfc" = ["static/*.png"]
+"tethysdash_plugin_cw3e" = ["static/*.png"]
