@@ -1,5 +1,5 @@
 from intake.source import base
-from .constants import MRRS_LOCATIONS
+from .constants import MRR_LOCATIONS
 
 
 class MicroRainRadarsChart(base.DataSource):
@@ -13,9 +13,9 @@ class MicroRainRadarsChart(base.DataSource):
         "precipitation",
         "radar",
     ]
-    visualization_description = "Plots show data collected from the MRR station highlighted on the map. The top panel shows reflectivity shaded by color and the bottom panel shows vertical velocity. More information about MicroRain Radar products can be found at https://cw3e.ucsd.edu/cw3e_observations_mrrs/"
+    visualization_description = "Plots show data collected from the MRR station highlighted on the map. The top panel shows reflectivity shaded by color and the bottom panel shows vertical velocity. More information about MicroRain Radar products can be found at https://cw3e.ucsd.edu/cw3e_observations_disdrometers/"
     visualization_args = {
-        "location": MRRS_LOCATIONS,
+        "location": MRR_LOCATIONS,
     }
     visualization_group = "CW3E"
     visualization_label = "MicroRain Radar Plot"

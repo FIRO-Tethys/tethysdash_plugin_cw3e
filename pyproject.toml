@@ -29,6 +29,8 @@ cw3e_surface_meterology = "tethysdash_plugin_cw3e.surface_meterology:SurfaceMete
 cw3e_integrated_microwave_animations = "tethysdash_plugin_cw3e.integrated_microwave_animations:IntegratedMicrowaveAnimations"
 cw3e_mrr_chart = "tethysdash_plugin_cw3e.micro_rain_radars_chart:MicroRainRadarsChart"
 cw3e_mrr_map = "tethysdash_plugin_cw3e.micro_rain_radars_map:MicroRainRadarsMap"
+cw3e_disdrometer_chart = "tethysdash_plugin_cw3e.disdrometer_chart:DisdrometerChart"
+cw3e_disdrometer_map = "tethysdash_plugin_cw3e.disdrometer_map:DisdrometerMap"
 
 [tool.setuptools]
 include-package-data = true

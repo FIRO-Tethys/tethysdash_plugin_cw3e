@@ -1,4 +1,4 @@
-MRRS_LOCATIONS = [
+MRR_LOCATIONS = [
     {
         "label": "Green/Duwamish",
         "options": [
@@ -34,7 +34,54 @@ MRRS_LOCATIONS = [
         "label": "Upper Yuba/Feather",
         "options": [
             {"value": "DLA", "label": "Downieville"},
-            {"value": "NBB", "label": "Seven Oaks Dam"},
+            {"value": "NBB", "label": "New Bullards Bar"},
+        ],
+    },
+]
+
+DISDROMETER_LOCATIONS = [
+    {
+        "label": "Green/Duwamish",
+        "options": [
+            {"value": "HDW", "label": "Headworks"},
+        ],
+    },
+    {
+        "label": "Russian",
+        "options": [
+            {"value": "IGM", "label": "Ingram"},
+            {"value": "PVC", "label": "Potter Valley"},
+        ],
+    },
+    {
+        "label": "Santa Ana",
+        "options": [
+            {"value": "SOD", "label": "Seven Oaks Dam"},
+            {"value": "CAT", "label": "Catalina Island"},
+        ],
+    },
+    {
+        "label": "Tuolumne/Merced",
+        "options": [
+            {"value": "GPO", "label": "Granite Portal"},
+            {"value": "HRD", "label": "Henness Ridge Drive"},
+            {"value": "HMD", "label": "Hodgdon Meadow"},
+            {"value": "WPO", "label": "West Portal"},
+        ],
+    },
+    {
+        "label": "Truckee",
+        "options": [
+            {"value": "MAK", "label": "Martis Creek"},
+        ],
+    },
+    {
+        "label": "Upper Yuba/Feather",
+        "options": [
+            {"value": "CHZ", "label": "Central Sierra Snow Lab"},
+            {"value": "DLA", "label": "Downieville"},
+            {"value": "GVE", "label": "Greenville"},
+            {"value": "NBB", "label": "New Bullards Bar"},
         ],
     },
 ]

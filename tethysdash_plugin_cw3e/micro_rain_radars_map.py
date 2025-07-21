@@ -1,5 +1,5 @@
 from intake.source import base
-from .constants import MRRS_LOCATIONS
+from .constants import MRR_LOCATIONS
 
 
 class MicroRainRadarsMap(base.DataSource):
@@ -15,7 +15,7 @@ class MicroRainRadarsMap(base.DataSource):
     ]
     visualization_description = "Displays a png of a location map for the MircoRain Radar. More information about MicroRain Radar products can be found at https://cw3e.ucsd.edu/cw3e_observations_mrrs/"
     visualization_args = {
-        "location": MRRS_LOCATIONS,
+        "location": MRR_LOCATIONS,
     }
     visualization_group = "CW3E"
     visualization_label = "MicroRain Radar Map"
@@ -28,4 +28,4 @@ class MicroRainRadarsMap(base.DataSource):
 
     def read(self):
 
-        return f"https://cw3e.ucsd.edu//images/CW3E_Obs/maps/CW3E_Obs_MRRMaps_{self.location}.png"
+        return f"https://cw3e.ucsd.edu/images/CW3E_Obs/maps/CW3E_Obs_MRRMaps_{self.location}.png"
