@@ -27,6 +27,8 @@ cw3e_ar_landfall = "tethysdash_plugin_cw3e.ar_landfall:ARLandfall"
 cw3e_qpf = "tethysdash_plugin_cw3e.qpf:QPF"
 cw3e_surface_meterology = "tethysdash_plugin_cw3e.surface_meterology:SurfaceMeterology"
 cw3e_integrated_microwave_animations = "tethysdash_plugin_cw3e.integrated_microwave_animations:IntegratedMicrowaveAnimations"
+cw3e_mrr_chart = "tethysdash_plugin_cw3e.micro_rain_radars_chart:MicroRainRadarsChart"
+cw3e_mrr_map = "tethysdash_plugin_cw3e.micro_rain_radars_map:MicroRainRadarsMap"
 
 [tool.setuptools]
 include-package-data = true

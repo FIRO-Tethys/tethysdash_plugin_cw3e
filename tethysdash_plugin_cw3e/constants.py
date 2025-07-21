@@ -1,3 +1,44 @@
+MRRS_LOCATIONS = [
+    {
+        "label": "Green/Duwamish",
+        "options": [
+            {"value": "HDW", "label": "Headworks"},
+        ],
+    },
+    {
+        "label": "Russian",
+        "options": [
+            {"value": "IGM", "label": "Ingram"},
+            {"value": "PVC", "label": "Potter Valley"},
+        ],
+    },
+    {
+        "label": "Santa Ana",
+        "options": [
+            {"value": "SOD", "label": "Seven Oaks Dam"},
+        ],
+    },
+    {
+        "label": "Tuolumne",
+        "options": [
+            {"value": "GPO", "label": "Granite Portal"},
+        ],
+    },
+    {
+        "label": "Truckee",
+        "options": [
+            {"value": "MAK", "label": "Martis Creek"},
+        ],
+    },
+    {
+        "label": "Upper Yuba/Feather",
+        "options": [
+            {"value": "DLA", "label": "Downieville"},
+            {"value": "NBB", "label": "Seven Oaks Dam"},
+        ],
+    },
+]
+
 ARLandfallBaseUrl = "https://cw3e.ucsd.edu/images/"
 ARLandfallModelOptions = [
     "GFS Ensemble",
