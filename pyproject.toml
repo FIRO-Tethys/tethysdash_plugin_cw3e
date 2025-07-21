@@ -34,6 +34,7 @@ cw3e_disdrometer_map = "tethysdash_plugin_cw3e.disdrometer_map:DisdrometerMap"
 cw3e_radiometric_wind_profilers_chart = "tethysdash_plugin_cw3e.radiometric_wind_profilers_chart:RadiometricWindProfilersChart"
 cw3e_radiometric_wind_profilers_map = "tethysdash_plugin_cw3e.radiometric_wind_profilers_map:RadiometricWindProfilersMap"
 cw3e_ssmis_products = "tethysdash_plugin_cw3e.ssmis_products:SSMISProducts"
+cw3e_qpe = "tethysdash_plugin_cw3e.qpe:QPE"
 
 [tool.setuptools]
 include-package-data = true
