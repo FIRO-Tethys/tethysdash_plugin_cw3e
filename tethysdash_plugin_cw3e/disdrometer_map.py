@@ -12,7 +12,7 @@ class DisdrometerMap(base.DataSource):
         "rain",
         "precipitation",
     ]
-    visualization_description = "Displays a png of a location map for the Disdrometer data. More information about Disrometer products can be found at https://cw3e.ucsd.edu/cw3e_observations_disdrometers/"
+    visualization_description = "Displays a png of a location map for the Disdrometer data. More information about Disdrometer products can be found at https://cw3e.ucsd.edu/cw3e_observations_disdrometers/"
     visualization_args = {
         "location": DISDROMETER_LOCATIONS,
     }

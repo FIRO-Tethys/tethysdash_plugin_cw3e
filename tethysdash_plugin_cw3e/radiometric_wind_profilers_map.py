@@ -11,7 +11,7 @@ class RadiometricWindProfilersMap(base.DataSource):
         "wind",
         "profilers",
     ]
-    visualization_description = "Displays a png of a location map for the Radiometric Wind Profilers data. More information about Disrometer products can be found at https://cw3e.ucsd.edu/cw3e_observations_wind_profilers/"
+    visualization_description = "Displays a png of a location map for the Radiometric Wind Profilers data. More information can be found at https://cw3e.ucsd.edu/cw3e_observations_wind_profilers/"
     visualization_args = {}
     visualization_group = "CW3E"
     visualization_label = "Radiometric Wind Profilers Map"

@@ -11,7 +11,7 @@ class RadiometricWindProfilersChart(base.DataSource):
         "wind",
         "profilers",
     ]
-    visualization_description = "Plots show wind barbs depicting the horizontal wind speed and direction, colored based on wind speed (knots) at the selected location over the previous 48 hours (x-axis) from the surface up to 3 km above ground level (y-axis). The top panel shows a scatter plot of rain intensity (mm/h), the middle panel shows the radar reflectivity (dBZ), and the bottom panel shows the drop size distribution. More information about Disrometer products can be found at https://cw3e.ucsd.edu/cw3e_observations_disdrometers/"
+    visualization_description = "Plots show wind barbs depicting the horizontal wind speed and direction, colored based on wind speed (knots) at the selected location over the previous 48 hours (x-axis) from the surface up to 3 km above ground level (y-axis). The top panel shows a scatter plot of rain intensity (mm/h), the middle panel shows the radar reflectivity (dBZ), and the bottom panel shows the drop size distribution. More information can be found at https://cw3e.ucsd.edu/cw3e_observations_wind_profilers/"
     visualization_args = {}
     visualization_group = "CW3E"
     visualization_label = "Radiometric Wind Profilers Plot"
