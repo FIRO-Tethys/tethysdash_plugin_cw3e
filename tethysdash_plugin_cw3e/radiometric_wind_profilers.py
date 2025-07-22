@@ -4,7 +4,7 @@ from intake.source import base
 class RadiometricWindProfilers(base.DataSource):
     container = "python"
     version = "0.0.1"
-    name = "dradiometric_wind_profilers"
+    name = "cw3e_radiometric_wind_profilers"
     visualization_tags = [
         "cw3e",
         "radiometric",

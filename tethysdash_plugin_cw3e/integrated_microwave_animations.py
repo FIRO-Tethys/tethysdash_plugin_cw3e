@@ -5,7 +5,7 @@ from .constants import SurfaceMeterologyLocations
 class IntegratedMicrowaveAnimations(base.DataSource):
     container = "python"
     version = "0.0.1"
-    name = "cw3e_integrated_microwave_animations"
+    name = "cimss_integrated_microwave_animations"
     visualization_tags = [
         "cw3e",
         "wisconsion",
@@ -21,7 +21,7 @@ class IntegratedMicrowaveAnimations(base.DataSource):
     visualization_args = {
         "domain": ["Global", "NE Pacific", "N Atlantic"],
     }
-    visualization_group = "CW3E"
+    visualization_group = "CIMSS"
     visualization_label = "Integrated Microwave Animations of Integrated Water Vapor"
     visualization_type = "image"
 

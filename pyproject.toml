@@ -26,14 +26,15 @@ Issues = "https://github.com/FIRO-Tethys/tethysdash_plugin_cw3e/issues"
 cw3e_ar_landfall = "tethysdash_plugin_cw3e.ar_landfall:ARLandfall"
 cw3e_qpf = "tethysdash_plugin_cw3e.qpf:QPF"
 cw3e_surface_meterology = "tethysdash_plugin_cw3e.surface_meterology:SurfaceMeterology"
-cw3e_integrated_microwave_animations = "tethysdash_plugin_cw3e.integrated_microwave_animations:IntegratedMicrowaveAnimations"
+cimss_integrated_microwave_animations = "tethysdash_plugin_cw3e.integrated_microwave_animations:IntegratedMicrowaveAnimations"
 cw3e_mrr = "tethysdash_plugin_cw3e.micro_rain_radars:MicroRainRadars"
 cw3e_disdrometer = "tethysdash_plugin_cw3e.disdrometer:Disdrometer"
 cw3e_radiometric_wind_profilers = "tethysdash_plugin_cw3e.radiometric_wind_profilers:RadiometricWindProfilers"
-cw3e_ssmis_products = "tethysdash_plugin_cw3e.ssmis_products:SSMISProducts"
+noaa_ssmis_products = "tethysdash_plugin_cw3e.ssmis_products:SSMISProducts"
 cw3e_qpe = "tethysdash_plugin_cw3e.qpe:QPE"
 cw3e_water_storage_tracking = "tethysdash_plugin_cw3e.water_storage_tracking:WaterStorageTracking"
-cw3e_water_vapor_flux = "tethysdash_plugin_cw3e.water_vapor_flux:WaterVaporFlux"
+noaa_water_vapor_flux = "tethysdash_plugin_cw3e.water_vapor_flux:WaterVaporFlux"
+noaa_disdrometer = "tethysdash_plugin_cw3e.noaa_disdrometer:NOAADisdrometer"
 
 [tool.setuptools]
 include-package-data = true

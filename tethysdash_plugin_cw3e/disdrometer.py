@@ -5,7 +5,7 @@ from .constants import DISDROMETER_LOCATIONS
 class Disdrometer(base.DataSource):
     container = "python"
     version = "0.0.1"
-    name = "disdrometer"
+    name = "cw3e_disdrometer"
     visualization_tags = [
         "cw3e",
         "disdrometer",

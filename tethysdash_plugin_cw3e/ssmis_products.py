@@ -4,7 +4,7 @@ from intake.source import base
 class SSMISProducts(base.DataSource):
     container = "python"
     version = "0.0.1"
-    name = "ssmis_products"
+    name = "noaa_ssmis_products"
     visualization_tags = [
         "cw3e",
         "noaa",
@@ -24,7 +24,7 @@ class SSMISProducts(base.DataSource):
             {"label": "Rain Rate", "value": "recent_rn2"},
         ],
     }
-    visualization_group = "CW3E"
+    visualization_group = "NOAA"
     visualization_label = "SSMIS Products"
     visualization_type = "image"
 

@@ -4,7 +4,7 @@ from intake.source import base
 class WaterStorageTracking(base.DataSource):
     container = "python"
     version = "0.0.1"
-    name = "water_storage_tracking"
+    name = "cw3e_water_storage_tracking"
     visualization_tags = ["cw3e", "storage", "reservoir"]
     visualization_description = "Shows the most recent summary of reservoir water storage and reservoir-plus-snowpack water storage  based on daily California Department of Water Resources’ reports of storage. More information can be found at https://cw3e.ucsd.edu/water_storage_tracking/"
     visualization_args = {

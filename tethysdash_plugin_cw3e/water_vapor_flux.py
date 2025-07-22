@@ -4,8 +4,8 @@ from intake.source import base
 class WaterVaporFlux(base.DataSource):
     container = "python"
     version = "0.0.1"
-    name = "water_vapor_flux"
-    visualization_tags = ["cw3e", "water", "vapor", "flux"]
+    name = "noaa_water_vapor_flux"
+    visualization_tags = ["cw3e", "noaa", "water", "vapor", "flux"]
     visualization_description = "Shows wind at various levels colored by speed, freezing layer (black dots/dashed line), integrated water vapor (cyan line), upslope wind speed (purple or brown bars), upslope integrated water vapor flux (blue line), and hourly precipitation (green or red bars) with time moving from right to left. More information can be found at https://cw3e.ucsd.edu/real-time-observations/"
     visualization_args = {
         "location": [
@@ -34,7 +34,7 @@ class WaterVaporFlux(base.DataSource):
             },
         ],
     }
-    visualization_group = "CW3E"
+    visualization_group = "NOAA"
     visualization_label = "Water Vapor Flux Analyses and Forecasts"
     visualization_type = "image"
 
