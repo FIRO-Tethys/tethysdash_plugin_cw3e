@@ -35,6 +35,7 @@ cw3e_qpe = "tethysdash_plugin_cw3e.qpe:QPE"
 cw3e_water_storage_tracking = "tethysdash_plugin_cw3e.water_storage_tracking:WaterStorageTracking"
 noaa_water_vapor_flux = "tethysdash_plugin_cw3e.water_vapor_flux:WaterVaporFlux"
 noaa_disdrometer = "tethysdash_plugin_cw3e.noaa_disdrometer:NOAADisdrometer"
+noaa_snow_level = "tethysdash_plugin_cw3e.snow_level:SnowLevel"
 
 [tool.setuptools]
 include-package-data = true
