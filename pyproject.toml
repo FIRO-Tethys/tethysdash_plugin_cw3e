@@ -33,6 +33,7 @@ cw3e_radiometric_wind_profilers = "tethysdash_plugin_cw3e.radiometric_wind_profi
 cw3e_ssmis_products = "tethysdash_plugin_cw3e.ssmis_products:SSMISProducts"
 cw3e_qpe = "tethysdash_plugin_cw3e.qpe:QPE"
 cw3e_water_storage_tracking = "tethysdash_plugin_cw3e.water_storage_tracking:WaterStorageTracking"
+cw3e_water_vapor_flux = "tethysdash_plugin_cw3e.water_vapor_flux:WaterVaporFlux"
 
 [tool.setuptools]
 include-package-data = true
