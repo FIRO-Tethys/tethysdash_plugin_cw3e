@@ -1,3 +1,315 @@
+AR_CATALOG_POINTS = {
+    "type": "FeatureCollection",
+    "crs": {"properties": {"name": "EPSG:4326"}},
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {"lat": "250"},
+            "geometry": {"type": "Point", "coordinates": [-112, 25]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "255"},
+            "geometry": {"type": "Point", "coordinates": [-112, 25.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "260"},
+            "geometry": {"type": "Point", "coordinates": [-112, 26]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "265"},
+            "geometry": {"type": "Point", "coordinates": [-113, 26.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "270"},
+            "geometry": {"type": "Point", "coordinates": [-114, 27]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "275"},
+            "geometry": {"type": "Point", "coordinates": [-114.5, 27.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "280"},
+            "geometry": {"type": "Point", "coordinates": [-114.5, 28]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "285"},
+            "geometry": {"type": "Point", "coordinates": [-114, 28.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "290"},
+            "geometry": {"type": "Point", "coordinates": [-114.5, 29]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "295"},
+            "geometry": {"type": "Point", "coordinates": [-115.5, 29.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "300"},
+            "geometry": {"type": "Point", "coordinates": [-115.5, 30]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "305"},
+            "geometry": {"type": "Point", "coordinates": [-116, 30.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "310"},
+            "geometry": {"type": "Point", "coordinates": [-116.5, 31]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "315"},
+            "geometry": {"type": "Point", "coordinates": [-116.5, 31.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "320"},
+            "geometry": {"type": "Point", "coordinates": [-117, 32]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "325"},
+            "geometry": {"type": "Point", "coordinates": [-117, 32.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "330"},
+            "geometry": {"type": "Point", "coordinates": [-117.5, 33]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "335"},
+            "geometry": {"type": "Point", "coordinates": [-117.5, 33.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "340"},
+            "geometry": {"type": "Point", "coordinates": [-118.5, 34]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "345"},
+            "geometry": {"type": "Point", "coordinates": [-120, 34.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "350"},
+            "geometry": {"type": "Point", "coordinates": [-120.5, 35]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "355"},
+            "geometry": {"type": "Point", "coordinates": [-121, 35.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "360"},
+            "geometry": {"type": "Point", "coordinates": [-121.5, 36]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "365"},
+            "geometry": {"type": "Point", "coordinates": [-122, 36.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "370"},
+            "geometry": {"type": "Point", "coordinates": [-122.5, 37]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "375"},
+            "geometry": {"type": "Point", "coordinates": [-122.5, 37.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "380"},
+            "geometry": {"type": "Point", "coordinates": [-123, 38]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "385"},
+            "geometry": {"type": "Point", "coordinates": [-123, 38.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "390"},
+            "geometry": {"type": "Point", "coordinates": [-123.5, 39]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "395"},
+            "geometry": {"type": "Point", "coordinates": [-123.5, 39.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "400"},
+            "geometry": {"type": "Point", "coordinates": [-124, 40]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "405"},
+            "geometry": {"type": "Point", "coordinates": [-124, 40.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "410"},
+            "geometry": {"type": "Point", "coordinates": [-124, 41]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "415"},
+            "geometry": {"type": "Point", "coordinates": [-124, 41.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "420"},
+            "geometry": {"type": "Point", "coordinates": [-124, 42]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "425"},
+            "geometry": {"type": "Point", "coordinates": [-124.5, 42.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "430"},
+            "geometry": {"type": "Point", "coordinates": [-124.5, 43]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "435"},
+            "geometry": {"type": "Point", "coordinates": [-124, 43.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "440"},
+            "geometry": {"type": "Point", "coordinates": [-124, 44]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "445"},
+            "geometry": {"type": "Point", "coordinates": [-124, 44.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "450"},
+            "geometry": {"type": "Point", "coordinates": [-124, 45]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "455"},
+            "geometry": {"type": "Point", "coordinates": [-124, 45.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "460"},
+            "geometry": {"type": "Point", "coordinates": [-124, 46]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "465"},
+            "geometry": {"type": "Point", "coordinates": [-124, 46.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "470"},
+            "geometry": {"type": "Point", "coordinates": [-124, 47]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "475"},
+            "geometry": {"type": "Point", "coordinates": [-124.5, 47.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "480"},
+            "geometry": {"type": "Point", "coordinates": [-124.5, 48]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "485"},
+            "geometry": {"type": "Point", "coordinates": [-124.5, 48.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "490"},
+            "geometry": {"type": "Point", "coordinates": [-125, 49]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "495"},
+            "geometry": {"type": "Point", "coordinates": [-126, 49.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "500"},
+            "geometry": {"type": "Point", "coordinates": [-127, 50]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "505"},
+            "geometry": {"type": "Point", "coordinates": [-127.5, 50.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "510"},
+            "geometry": {"type": "Point", "coordinates": [-128, 51]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "515"},
+            "geometry": {"type": "Point", "coordinates": [-128, 51.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "520"},
+            "geometry": {"type": "Point", "coordinates": [-128.5, 52]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "525"},
+            "geometry": {"type": "Point", "coordinates": [-128.5, 52.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "530"},
+            "geometry": {"type": "Point", "coordinates": [-129.5, 53]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "535"},
+            "geometry": {"type": "Point", "coordinates": [-130, 53.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "540"},
+            "geometry": {"type": "Point", "coordinates": [-130, 54]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "545"},
+            "geometry": {"type": "Point", "coordinates": [-130, 54.5]},
+        },
+        {
+            "type": "Feature",
+            "properties": {"lat": "550"},
+            "geometry": {"type": "Point", "coordinates": [-130, 55]},
+        },
+    ],
+}
+
 MRR_LOCATIONS = [
     {
         "label": "Green/Duwamish",
