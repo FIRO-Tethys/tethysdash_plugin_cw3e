@@ -14,7 +14,7 @@ class IVTEnsembleProbability(base.DataSource):
         "ecmwf",
         "probability",
     ]
-    visualization_description = "Probability of IVT exceeding thresholds based on the forecast members and ensemble mean IVT vectors. Right: ensemble member contours (thin lines) and ensemble mean (thick blue line). More information can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
+    visualization_description = "Probability of IVT exceeding thresholds based on the forecast members and ensemble mean IVT vectors or ensemble member contours (thin lines) and ensemble mean (thick blue line). More information can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
     visualization_args = {
         "model": ["GEFS", "ECMWF EPS"],
         "threshold": ["IVT >250 kg/m/s", "IVT >500 kg/m/s", "IVT >750 kg/m/s"],

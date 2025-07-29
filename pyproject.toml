@@ -43,6 +43,7 @@ cw3e_ivt_and_relative_humidity_plots = "tethysdash_plugin_cw3e.ivt_relative_humi
 cw3e_ivt_cross_sections = "tethysdash_plugin_cw3e.ivt_cross_sections:IVTCrossSections"
 cw3e_west_coast_ivt_magnitude_plumes = "tethysdash_plugin_cw3e.west_coast_ivt_magnitude_plumes:WestCoastIVTMagnitudePlumes"
 cw3e_ivt_ensemble_probability = "tethysdash_plugin_cw3e.ivt_ensemble_probability:IVTEnsembleProbability"
+cw3e_ivt_thumbnail_ensembles = "tethysdash_plugin_cw3e.ivt_thumbnail_ensembles:IVTThumbnailEnsembles"
 
 
 
