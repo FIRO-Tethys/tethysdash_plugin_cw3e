@@ -41,6 +41,7 @@ noaa_landfalling_ar_scale_frequencies_plots = "tethysdash_plugin_cw3e.landfallin
 cw3e_ivt_and_relative_humidity_points = "tethysdash_plugin_cw3e.ivt_relative_humidity_gfs_meteograms_points:IVTAndRelativeHumidityPoints"
 cw3e_ivt_and_relative_humidity_plots = "tethysdash_plugin_cw3e.ivt_relative_humidity_gfs_meteograms_plots:IVTAndRelativeHumidityPlots"
 cw3e_ivt_cross_sections = "tethysdash_plugin_cw3e.ivt_cross_sections:IVTCrossSections"
+cw3e_west_coast_ivt_magnitude_plumes = "tethysdash_plugin_cw3e.west_coast_ivt_magnitude_plumes:WestCoastIVTMagnitudePlumes"
 
 
 [tool.setuptools]
