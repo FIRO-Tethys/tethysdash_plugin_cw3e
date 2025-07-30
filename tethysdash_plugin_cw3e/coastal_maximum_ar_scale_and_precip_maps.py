@@ -62,7 +62,4 @@ class CoastalMaximumARScaleAndPrecipMaps(base.DataSource):
         elif self.plot_type == "Ensemble Mean":
             plot_type = "Forecast_Mean"
 
-        print(
-            f"https://cw3e.ucsd.edu/images/{model_url}/ARScale/{location}/{model_url.upper()}_ARScaleMap_{plot_type}_{location}{precip_suffix}.png"
-        )
         return f"https://cw3e.ucsd.edu/images/{model_url}/ARScale/{location}/{model_url.upper()}_ARScaleMap_{plot_type}_{location}{precip_suffix}.png"
