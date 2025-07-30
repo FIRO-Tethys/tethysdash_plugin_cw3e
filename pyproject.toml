@@ -44,6 +44,7 @@ cw3e_ivt_cross_sections = "tethysdash_plugin_cw3e.ivt_cross_sections:IVTCrossSec
 cw3e_west_coast_ivt_magnitude_plumes = "tethysdash_plugin_cw3e.west_coast_ivt_magnitude_plumes:WestCoastIVTMagnitudePlumes"
 cw3e_ivt_ensemble_probability = "tethysdash_plugin_cw3e.ivt_ensemble_probability:IVTEnsembleProbability"
 cw3e_ivt_thumbnail_ensembles = "tethysdash_plugin_cw3e.ivt_thumbnail_ensembles:IVTThumbnailEnsembles"
+cw3e_coastal_maximum_ar_scale_and_precip_maps = "tethysdash_plugin_cw3e.coastal_maximum_ar_scale_and_precip_maps:CoastalMaximumARScaleAndPrecipMaps"
 
 
 
