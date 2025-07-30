@@ -46,6 +46,7 @@ cw3e_ivt_ensemble_probability = "tethysdash_plugin_cw3e.ivt_ensemble_probability
 cw3e_ivt_thumbnail_ensembles = "tethysdash_plugin_cw3e.ivt_thumbnail_ensembles:IVTThumbnailEnsembles"
 cw3e_coastal_maximum_ar_scale_and_precip_maps = "tethysdash_plugin_cw3e.coastal_maximum_ar_scale_and_precip_maps:CoastalMaximumARScaleAndPrecipMaps"
 cw3e_ar_scale_plume_diagrams = "tethysdash_plugin_cw3e.ar_scale_plume_diagrams:ARScalePlumeDiagrams"
+cw3e_ar_scale_ensemble_diagnostics = "tethysdash_plugin_cw3e.ar_scale_ensemble_diagnostics:ARScaleEnsembleDiagnostics"
 
 
 
