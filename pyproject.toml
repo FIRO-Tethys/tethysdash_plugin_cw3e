@@ -55,6 +55,7 @@ noaa_cpc_30_day_precip_outlook_layer = "tethysdash_plugin_cw3e.noaa_cpc_30_day_p
 noaa_cpc_30_day_temp_outlook_layer = "tethysdash_plugin_cw3e.noaa_cpc_30_day_temp_outlook_layer:NOAACPC_30_DayTempOutlookLayer"
 noaa_cpc_week_1_gfs_precip_anom_layer = "tethysdash_plugin_cw3e.noaa_cpc_week_1_gfs_precip_anom_layer:NOAACPCWeek1GFSAnomLayer"
 noaa_cpc_week_2_gfs_precip_anom_layer = "tethysdash_plugin_cw3e.noaa_cpc_week_2_gfs_precip_anom_layer:NOAACPCWeek2GFSAnomLayer"
+cw3e_snow_level_radar_layer = "tethysdash_plugin_cw3e.snow_level_radar_layer:SnowLevelRadarLayer"
 
 
 

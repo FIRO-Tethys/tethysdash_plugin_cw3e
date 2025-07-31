@@ -1,0 +1,155 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "cff",
+        "name": "Colfax(FMCW)",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/cff_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/cff_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-120.937859, 39.079756] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "czc",
+        "name": "Cazadero",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/czc_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/czc_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-123.2152, 38.6107] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "hcp",
+        "name": "Happy Camp",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/hcp_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/hcp_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-123.3854, 41.7906] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "hop",
+        "name": "Hopland",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/hop_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/hop_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-123.09, 39.0] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "knv",
+        "name": "Kernville",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/knv_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/knv_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-118.4195, 35.7542] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "mdt",
+        "name": "Middletown",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/mdt_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/mdt_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-122.7112, 38.74563] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "ner",
+        "name": "New Exchequer Dam",
+        "http://cw3e.ucsd.edu/images/aro/reflectivity_url": "images/ner_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/ner_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-120.2775, 37.5972] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "ovl",
+        "name": "Oroville",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/ovl_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/ovl_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-121.4876, 39.5318] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "pfd",
+        "name": "Pine Flat Dam",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/pfd_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/pfd_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-119.3324, 36.8301] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "sbo",
+        "name": "San Bernardino",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/sbo_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/sbo_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-117.3353, 34.2032] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "slr",
+        "name": "San Luis Reservoir",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/slr_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/slr_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-121.0668, 37.0611] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "std",
+        "name": "Shasta Dam",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/std_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/std_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-122.4293, 40.7158] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "sth",
+        "name": "Saint Helena",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/sth_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/sth_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-122.485001, 38.554501] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "str",
+        "name": "Santa Rosa",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/str_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/str_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-122.8022, 38.5154] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sid": "tde",
+        "name": "Trout Dale",
+        "reflectivity_url": "http://cw3e.ucsd.edu/images/aro/images/tde_snr.gif",
+        "melt_url": "http://cw3e.ucsd.edu/images/aro/images/tde_melt.gif"
+      },
+      "geometry": { "type": "Point", "coordinates": [-122.3864, 45.5535] }
+    }
+  ]
+}

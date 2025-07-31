@@ -1,0 +1,17 @@
+{
+  "version": 8,
+  "sources": { "Snow Level Radars": { "type": "geojson" } },
+  "layers": [
+    {
+      "id": "points-circle",
+      "type": "circle",
+      "source": "Snow Level Radars",
+      "paint": {
+        "circle-color": "#ff0000",
+        "circle-radius": 6,
+        "circle-stroke-color": "#000000",
+        "circle-stroke-width": 1
+      }
+    }
+  ]
+}
