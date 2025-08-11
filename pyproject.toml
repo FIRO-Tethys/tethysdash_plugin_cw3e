@@ -56,7 +56,10 @@ noaa_cpc_30_day_temp_outlook_layer = "tethysdash_plugin_cw3e.noaa_cpc_30_day_tem
 noaa_cpc_week_1_gfs_precip_anom_layer = "tethysdash_plugin_cw3e.noaa_cpc_week_1_gfs_precip_anom_layer:NOAACPCWeek1GFSAnomLayer"
 noaa_cpc_week_2_gfs_precip_anom_layer = "tethysdash_plugin_cw3e.noaa_cpc_week_2_gfs_precip_anom_layer:NOAACPCWeek2GFSAnomLayer"
 cw3e_snow_level_radar_layer = "tethysdash_plugin_cw3e.snow_level_radar_layer:SnowLevelRadarLayer"
-
+cw3e_ivt_and_iwv_analyses_and_forecasts = "tethysdash_plugin_cw3e.ivt_and_iwv_analyses_and_forecasts:IVTAndIWVAnalysesAndForecasts"
+cw3e_250_hpa_winds = "tethysdash_plugin_cw3e.winds_250_hPa:Winds250hPA"
+cw3e_500_hpa_vorticity = "tethysdash_plugin_cw3e.vorticity_500_hPa:Vorticity500hPA"
+cw3e_850_hpa_temperature = "tethysdash_plugin_cw3e.temperature_850_hPa:Temperature850hPA"
 
 
 

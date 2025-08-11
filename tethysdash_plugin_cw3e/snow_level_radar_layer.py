@@ -1,5 +1,4 @@
 from intake.source import base
-from .constants import SNOW_LEVEL_RADAR_POINTS
 from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder
 
 
