@@ -67,8 +67,7 @@ cw3e_850_hpa_temperature = "tethysdash_plugin_cw3e.temperature_850_hPa:Temperatu
 include-package-data = true
 zip-safe = false
 
-[tool.setuptools.packages.find]
 include = ["*"]
 
 [tool.setuptools.package-data]
-"tethysdash_plugin_cw3e" = ["static/*.png"]
+"tethysdash_plugin_cw3e" = ["static/*.png", "static/*.json", "static/*.geojson"]
