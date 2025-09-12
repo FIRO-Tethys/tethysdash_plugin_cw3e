@@ -54,4 +54,4 @@ class IVTAndIWVAnalysesAndForecasts(base.DataSource):
 
         model_location = "gfs" if self.model == "GFS" else "ECMWF"
 
-        return f"https://cw3e.ucsd.edu/images/{model_location}/{self.product}/{self.model}_{self.product.upper() if self.model == "ECMWF-GFS" else self.product}_{self.region}_latest_F{self.forecast_hour}.png"
+        return f"https://cw3e.ucsd.edu/images/{model_location}/{self.product}/{self.model}_{self.product.upper() if self.model == 'ECMWF-GFS' else self.product}_{self.region}_latest_F{self.forecast_hour}.png"
