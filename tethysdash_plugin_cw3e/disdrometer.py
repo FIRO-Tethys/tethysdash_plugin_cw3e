@@ -17,6 +17,7 @@ class Disdrometer(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "Disdrometer"
     visualization_type = "image"
+    visualization_attribution = "CW3E"
 
     def __init__(self, location, type, metadata=None):
         # store important kwargs

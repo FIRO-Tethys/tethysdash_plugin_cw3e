@@ -27,6 +27,7 @@ class Vorticity500hPA(base.DataSource):
     visualization_label = "500-hPa Absolute Vorticity Model Analysis and Forecasts"
     visualization_type = "image"
     visualization_loading_icon = False
+    visualization_attribution = "CW3E"
 
     def __init__(self, model, forecast_hour, region, metadata=None):
         # store important kwargs

@@ -12,6 +12,7 @@ class NOAACPC_8_14_DayTempOutlookLayer(base.DataSource):
     visualization_type = "map_layer"
     visualization_tags = ["noaa", "map", "map_layer", "temperature"]
     visualization_description = "The CPC 8 to 14 Day Outlook Web Service consist of Forecasted US Weather Outlooks polygon layers of temperature for the U.S. for 8-14 days. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_8_14_day_outlk/MapServer"
+    visualization_attribution = "NOAA"
 
     def __init__(self, metadata=None, **kwargs):
         super().__init__(metadata=metadata)

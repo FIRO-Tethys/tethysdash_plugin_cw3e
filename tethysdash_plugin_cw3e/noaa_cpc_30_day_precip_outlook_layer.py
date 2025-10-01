@@ -12,6 +12,7 @@ class NOAACPC_30_DayPrecipOutlookLayer(base.DataSource):
     visualization_type = "map_layer"
     visualization_tags = ["noaa", "map", "map_layer", "precipitation"]
     visualization_description = "The CPC Monthly Precipitation Outlook Web Service consist of NWS' Climate Prediction Center's Forecasted Precipitation Probabilities for US Weather Outlook polygon layer for One Calendar Month. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_mthly_precip_outlk/MapServer"
+    visualization_attribution = "NOAA"
 
     def __init__(self, metadata=None, **kwargs):
         super().__init__(metadata=metadata)

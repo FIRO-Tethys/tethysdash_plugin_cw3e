@@ -30,6 +30,7 @@ class IVTEnsembleProbability(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "IVT Ensemble Probabilities"
     visualization_type = "image"
+    visualization_attribution = "CW3E"
 
     def __init__(
         self, model, threshold, forecast_hour, domain, plot_type, metadata=None

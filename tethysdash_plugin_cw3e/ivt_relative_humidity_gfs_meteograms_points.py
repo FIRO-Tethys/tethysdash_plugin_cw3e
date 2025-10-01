@@ -21,6 +21,7 @@ class IVTAndRelativeHumidityPoints(base.DataSource):
         "humidity",
     ]
     visualization_description = "A collection of points used for IVT and Relative Humidity plots. More information can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
+    visualization_attribution = "CW3E"
 
     def __init__(self, metadata=None, **kwargs):
         super().__init__(metadata=metadata)

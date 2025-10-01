@@ -12,6 +12,7 @@ class NOAACPC_6_10_DayTempOutlookLayer(base.DataSource):
     visualization_type = "map_layer"
     visualization_tags = ["noaa", "map", "map_layer", "temperature"]
     visualization_description = "The CPC 6 to 10 Day Outlook Web Service consist of Forecasted US Weather Outlooks polygon layers of temperature for the U.S. for 6-10 days. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_6_10_day_outlk/MapServer"
+    visualization_attribution = "CW3E"
 
     def __init__(self, metadata=None, **kwargs):
         super().__init__(metadata=metadata)

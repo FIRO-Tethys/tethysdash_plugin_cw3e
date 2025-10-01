@@ -482,6 +482,7 @@ class WestCoastIVTMagnitudePlumes(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "West Coast IVT Magnitude Plumes"
     visualization_type = "image"
+    visualization_attribution = "CW3E"
 
     def __init__(self, visualization, model, metadata=None, **kwargs):
         # store important kwargs

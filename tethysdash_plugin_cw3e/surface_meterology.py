@@ -27,6 +27,7 @@ class SurfaceMeterology(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "Surface Meteorology"
     visualization_type = "image"
+    visualization_attribution = "CW3E"
 
     def __init__(self, watershed_location, metadata=None):
         # store important kwargs

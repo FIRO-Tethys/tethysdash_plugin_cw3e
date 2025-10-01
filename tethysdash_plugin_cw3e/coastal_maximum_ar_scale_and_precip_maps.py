@@ -24,6 +24,7 @@ class CoastalMaximumARScaleAndPrecipMaps(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "Coastal Maximum AR Scale and Precipitation Maps"
     visualization_type = "image"
+    visualization_attribution = "CW3E"
 
     def __init__(self, plot_type, show_precipitation, model, location, metadata=None):
         # store important kwargs

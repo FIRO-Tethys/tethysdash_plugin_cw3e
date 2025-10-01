@@ -12,6 +12,7 @@ class SnowLevelRadarLayer(base.DataSource):
     visualization_type = "map_layer"
     visualization_tags = ["cw3e", "map", "map_layer", "snow", "level", "radar"]
     visualization_description = "A collection of points used for Snow Level Radar. More information can be found at https://cw3e.ucsd.edu/DSMaps/DS_freezing.html"
+    visualization_attribution = "CW3E"
 
     def __init__(self, metadata=None, **kwargs):
         super().__init__(metadata=metadata)

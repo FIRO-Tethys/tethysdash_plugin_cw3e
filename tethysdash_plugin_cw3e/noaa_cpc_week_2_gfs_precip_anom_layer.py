@@ -12,6 +12,7 @@ class NOAACPCWeek2GFSAnomLayer(base.DataSource):
     visualization_type = "map_layer"
     visualization_tags = ["noaa", "map", "map_layer", "precipitation", "gfs"]
     visualization_description = "Climate Prediction Center’s Global Forecast System (GFS) Precipitation Anomaly Analysis Map Service’s consists of 7 day accumulated precipitation anomaly data from the Global Forecast System. More information can be found at https://mapservices.weather.noaa.gov/raster/rest/services/climate/cpc_gfs_precip_anom/MapServer"
+    visualization_attribution = "NOAA"
 
     def __init__(self, metadata=None, **kwargs):
         super().__init__(metadata=metadata)
