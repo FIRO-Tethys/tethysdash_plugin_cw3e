@@ -31,6 +31,7 @@ class ARLandfall(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "AR Landfall Tool"
     visualization_type = "image"
+    visualization_attribution = "CW3E"
 
     def __init__(self, data_source, model_type, model_location, metadata=None):
         # store important kwargs

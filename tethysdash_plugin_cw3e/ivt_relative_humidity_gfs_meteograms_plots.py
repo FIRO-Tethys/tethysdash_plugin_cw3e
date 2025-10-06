@@ -36,6 +36,7 @@ class IVTAndRelativeHumidityPlots(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "IVT and Relative Humidity Plots"
     visualization_type = "image"
+    visualization_attribution = "CW3E"
 
     def __init__(self, latitude, longitude, visualization, metadata=None, **kwargs):
         # store important kwargs

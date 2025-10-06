@@ -27,6 +27,7 @@ class Temperature850hPA(base.DataSource):
     visualization_label = "850-hPa Temperature Model Analysis and Forecasts"
     visualization_type = "image"
     visualization_loading_icon = False
+    visualization_attribution = "CW3E"
 
     def __init__(self, model, forecast_hour, region, metadata=None):
         # store important kwargs

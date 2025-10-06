@@ -49,6 +49,7 @@ class SnowLevel(base.DataSource):
     visualization_group = "NOAA"
     visualization_label = "Snow Level Radars"
     visualization_type = "image"
+    visualization_attribution = "NOAA"
 
     def __init__(self, location, type, metadata=None, **kwargs):
         # store important kwargs

@@ -37,6 +37,7 @@ class WaterVaporFlux(base.DataSource):
     visualization_group = "NOAA"
     visualization_label = "Water Vapor Flux Analyses and Forecasts"
     visualization_type = "image"
+    visualization_attribution = "NOAA"
 
     def __init__(self, location, type, metadata=None, **kwargs):
         # store important kwargs

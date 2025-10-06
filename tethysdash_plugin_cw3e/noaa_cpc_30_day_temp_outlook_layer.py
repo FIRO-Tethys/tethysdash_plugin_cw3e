@@ -12,6 +12,7 @@ class NOAACPC_30_DayTempOutlookLayer(base.DataSource):
     visualization_type = "map_layer"
     visualization_tags = ["noaa", "map", "map_layer", "temperature"]
     visualization_description = "Climate Predictive Center (CPC) Monthly Temperature Outlook Web Service consist of polygon layers of temperature forecast probabilities for the U.S. for the next calendar month. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_mthly_temp_outlk/MapServer"
+    visualization_attribution = "NOAA"
 
     def __init__(self, metadata=None, **kwargs):
         super().__init__(metadata=metadata)

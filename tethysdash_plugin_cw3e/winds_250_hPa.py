@@ -12,7 +12,7 @@ class Winds250hPA(base.DataSource):
         "ecmwf",
         "winds",
     ]
-    visualization_description = " 250-hPa wind barbs with magnitude shaded in knots and heights contoured in geopotential meters from the Global Forecast System (GFS) and the European Centre for Medium-Range Weather Forecasts (ECMWF). More information can be found at https://cw3e.ucsd.edu/250Winds_NPac/"
+    visualization_description = "250-hPa wind barbs with magnitude shaded in knots and heights contoured in geopotential meters from the Global Forecast System (GFS) and the European Centre for Medium-Range Weather Forecasts (ECMWF). More information can be found at https://cw3e.ucsd.edu/250Winds_NPac/"
     visualization_args = {
         "model": ["GFS", "ECMWF"],
         "forecast_hour": "text",
@@ -27,6 +27,7 @@ class Winds250hPA(base.DataSource):
     visualization_label = "250-hPa Winds and Height Model Analysis and Forecasts"
     visualization_type = "image"
     visualization_loading_icon = False
+    visualization_attribution = "CW3E"
 
     def __init__(self, model, forecast_hour, region, metadata=None):
         # store important kwargs

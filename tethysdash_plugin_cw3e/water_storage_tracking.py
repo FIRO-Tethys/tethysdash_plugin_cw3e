@@ -23,6 +23,7 @@ class WaterStorageTracking(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "Water Storage Tracking"
     visualization_type = "image"
+    visualization_attribution = "CW3E"
 
     def __init__(self, domain, type, metadata=None):
         # store important kwargs

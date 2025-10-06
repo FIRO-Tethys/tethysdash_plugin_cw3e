@@ -301,6 +301,7 @@ class ARScaleEnsembleDiagnostics(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "AR Scale Ensemble Diagnostics"
     visualization_type = "image"
+    visualization_attribution = "CW3E"
 
     def __init__(
         self,

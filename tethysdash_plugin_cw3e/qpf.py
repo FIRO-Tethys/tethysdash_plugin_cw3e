@@ -15,6 +15,7 @@ class QPF(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "10-day Model Precipitation Forecasts"
     visualization_type = "image"
+    visualization_attribution = "CW3E"
 
     def __init__(self, HUC8, QPF_visualization, metadata=None):
         # store important kwargs

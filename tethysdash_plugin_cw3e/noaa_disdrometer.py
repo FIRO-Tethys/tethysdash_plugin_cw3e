@@ -27,6 +27,7 @@ class NOAADisdrometer(base.DataSource):
     visualization_group = "NOAA"
     visualization_label = "Disdrometer"
     visualization_type = "image"
+    visualization_attribution = "NOAA"
 
     def __init__(self, location, type, metadata=None):
         # store important kwargs

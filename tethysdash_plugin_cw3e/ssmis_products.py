@@ -27,6 +27,7 @@ class SSMISProducts(base.DataSource):
     visualization_group = "NOAA"
     visualization_label = "SSMIS Products"
     visualization_type = "image"
+    visualization_attribution = "NOAA"
 
     def __init__(self, domain, data_type, metadata=None):
         # store important kwargs
