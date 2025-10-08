@@ -31,7 +31,6 @@ class ARLandfall(base.DataSource):
     visualization_group = "CW3E"
     visualization_label = "AR Landfall Tool"
     visualization_type = "image"
-    visualization_attribution = "CW3E"
 
     def __init__(self, data_source, model_type, model_location, metadata=None):
         # store important kwargs
@@ -46,7 +45,14 @@ class ARLandfall(base.DataSource):
         model_sources = {
             "GFS Ensemble": ARLandfallBaseUrl
             + "gefs/v12/LFT/US-west/GEFS_LandfallTool",
+            "GEFS": ARLandfallBaseUrl + "gefs/v12/LFT/US-west/GEFS_LandfallTool",
+            "U.S. National Model (GEFS)": ARLandfallBaseUrl
+            + "gefs/v12/LFT/US-west/GEFS_LandfallTool",
             "ECMWF EPS": ARLandfallBaseUrl
+            + "ECMWF/ensemble/LandfallTool/US-west/ECMWF_LandfallTool",
+            "European Model (ECMWF)": ARLandfallBaseUrl
+            + "ECMWF/ensemble/LandfallTool/US-west/ECMWF_LandfallTool",
+            "ECMWF": ARLandfallBaseUrl
             + "ECMWF/ensemble/LandfallTool/US-west/ECMWF_LandfallTool",
             "ECMWF minus GFS": ARLandfallBaseUrl
             + "ECMWF/ensemble/LandfallTool/US-west/ECMWF-GEFS_LandfallTool",

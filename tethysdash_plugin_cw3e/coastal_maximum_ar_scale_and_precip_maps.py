@@ -42,9 +42,17 @@ class CoastalMaximumARScaleAndPrecipMaps(base.DataSource):
             if self.plot_type == "Observed":
                 precip_suffix = "_NoQPE"
 
-        if self.model == "U.S. National Model (GEFS)":
+        if (
+            self.model == "U.S. National Model (GEFS)"
+            or self.model == "GFS Ensemble"
+            or self.model == "GEFS"
+        ):
             model_url = "gefs"
-        elif self.model == "European Model (ECMWF)":
+        elif (
+            self.model == "European Model (ECMWF)"
+            or self.model == "ECMWF EPS"
+            or self.model == "ECMWF"
+        ):
             model_url = "ECMWF"
 
         if self.location == "Coastal":

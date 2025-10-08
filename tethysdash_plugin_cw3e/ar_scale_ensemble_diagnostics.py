@@ -318,9 +318,17 @@ class ARScaleEnsembleDiagnostics(base.DataSource):
 
     def read(self):
 
-        if self.model == "U.S. National Model (GEFS)":
+        if (
+            self.model == "U.S. National Model (GEFS)"
+            or self.model == "GFS Ensemble"
+            or self.model == "GEFS"
+        ):
             model_url = "gefs"
-        elif self.model == "European Model (ECMWF)":
+        elif (
+            self.model == "European Model (ECMWF)"
+            or self.model == "ECMWF EPS"
+            or self.model == "ECMWF"
+        ):
             model_url = "ECMWF"
 
         return f"https://cw3e.ucsd.edu/images/{model_url}/ARScale/{self.transect_location}/{model_url.upper()}_ARScale_FourPanel_{self.transect_location}_{self.location}.png"
