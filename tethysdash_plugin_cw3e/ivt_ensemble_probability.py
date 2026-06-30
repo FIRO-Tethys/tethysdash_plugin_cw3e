@@ -1,12 +1,41 @@
-from intake.source import base
+from datetime import datetime, timedelta, timezone
 import re
+import requests
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
+from tethysapp.tethysdash.exceptions import VisualizationError
+
+BASE_URL = "https://cw3e.ucsd.edu/images"
+
+# model display label -> v1 model path code and run-cycle interval (hours).
+# GEFS runs every 6 hours (00/06/12/18Z); ECMWF runs only at 00Z and 12Z.
+MODELS = {
+    "GEFS": {"code": "GEFS_50", "cycle_interval": 6},
+    "ECMWF EPS": {"code": "ECMWF_ENS", "cycle_interval": 12},
+}
+
+# domain display label -> v1 region path component.
+DOMAIN_CODES = {
+    "Northeast Pacific": "NEPac",
+    "U.S. West Coast": "USWC",
+    "Interior West": "IntWest",
+    "North America": "NAmerica",
+}
+
+# plot_type display label -> v1 product plot token.
+PLOT_TYPE_CODES = {
+    "Probability": "probability",
+    "Contours": "spaghetti",
+}
+
+# West-WRF (legacy, not run in real-time) plot_type -> legacy token, and the
+# domains it supports (Northeast Pacific and U.S. West Coast only).
+WEST_WRF_PLOT_TOKENS = {"Probability": "Prob", "Contours": "Spag"}
+WEST_WRF_DOMAINS = {"Northeast Pacific", "U.S. West Coast"}
 
 
-class IVTEnsembleProbability(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class IVTEnsembleProbability(TethysDashPlugin):
     name = "cw3e_ivt_ensemble_probability"
-    visualization_tags = [
+    tags = [
         "cw3e",
         "ar",
         "ivt",
@@ -14,9 +43,10 @@ class IVTEnsembleProbability(base.DataSource):
         "ecmwf",
         "probability",
     ]
-    visualization_description = "Probability of IVT exceeding thresholds based on the forecast members and ensemble mean IVT vectors or ensemble member contours (thin lines) and ensemble mean (thick blue line). More information can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
-    visualization_args = {
-        "model": ["GEFS", "ECMWF EPS"],
+    description = "Probability of IVT exceeding thresholds based on the forecast members and ensemble mean IVT vectors or ensemble member contours (thin lines) and ensemble mean (thick blue line). More information can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
+    args = {
+        "date": "date",
+        "model": ["GEFS", "ECMWF EPS", "West-WRF"],
         "threshold": ["IVT >250 kg/m/s", "IVT >500 kg/m/s", "IVT >750 kg/m/s"],
         "forecast_hour": list(range(0, 246, 6)),
         "domain": [
@@ -27,38 +57,74 @@ class IVTEnsembleProbability(base.DataSource):
         ],
         "plot_type": ["Probability", "Contours"],
     }
-    visualization_group = "CW3E"
-    visualization_label = "IVT Ensemble Probabilities"
-    visualization_type = "image"
-    visualization_attribution = "CW3E"
+    group = "CW3E"
+    label = "IVT Ensemble Probabilities"
+    type = "image"
+    attribution = "CW3E"
 
-    def __init__(
-        self, model, threshold, forecast_hour, domain, plot_type, metadata=None
-    ):
-        # store important kwargs
-        if model == "GEFS":
-            self.model_location = "gefs/IVT_maps/GEFS"
-        elif model == "ECMWF EPS":
-            self.model_location = "ECMWF/IVT_Ensemble_Maps/ECMWF"
+    def run(self):
+        threshold = int(re.search(r"\d+", self.threshold).group())
+        region = DOMAIN_CODES[self.domain]
 
-        self.threshold = int(re.search(r"\d+", threshold).group())
-        self.forecast_hour = forecast_hour
+        # West-WRF has no v1 product (not run in real-time); use the legacy URL.
+        # It only covers the Northeast Pacific and U.S. West Coast domains.
+        if self.model == "West-WRF":
+            if self.domain not in WEST_WRF_DOMAINS:
+                raise VisualizationError(
+                    "West-WRF IVT ensemble products are only available for the "
+                    "Northeast Pacific and U.S. West Coast domains."
+                )
+            token = WEST_WRF_PLOT_TOKENS[self.plot_type]
+            return (
+                "https://cw3e.ucsd.edu/images/wwrf/ensemble/IVT_maps/"
+                f"West-WRF_IVT{token}_{threshold}_{region}-F{int(self.forecast_hour)}.png"
+            )
 
-        if domain == "Northeast Pacific":
-            self.domain = "NEPac"
-        elif domain == "U.S. West Coast":
-            self.domain = "USWC"
-        elif domain == "Interior West":
-            self.domain = "IntWest"
-        elif domain == "North America":
-            self.domain = "NAmerica"
+        model_info = MODELS[self.model]
+        model = model_info["code"]
+        interval = model_info["cycle_interval"]
+        product = f"ivt{threshold}_{PLOT_TYPE_CODES[self.plot_type]}_map"
+        forecast_hour = f"F{int(self.forecast_hour):03d}"
 
-        if plot_type == "Probability":
-            self.plot_type = "Prob"
-        elif plot_type == "Contours":
-            self.plot_type = "Spag"
-        super().__init__(metadata=metadata)
+        if self.date == "latest":
+            return self._resolve_latest_url(
+                product, model, interval, region, forecast_hour
+            )
 
-    def read(self):
+        # Validate the requested run cycle for the selected model.
+        if self.date.hour % interval != 0:
+            valid = ", ".join(f"{h:02d}Z" for h in range(0, 24, interval))
+            raise VisualizationError(
+                f"{self.model} model runs are only available at {valid}."
+            )
 
-        return f"https://cw3e.ucsd.edu/images/{self.model_location}_IVT{self.plot_type}_{self.threshold}_{self.domain}-F{self.forecast_hour}.png"
+        date_str = self.date.strftime("%Y%m%d%H")
+        return self._build_url(product, model, region, date_str, forecast_hour)
+
+    def _build_url(self, product, model, region, date_str, forecast_hour):
+        return (
+            f"{BASE_URL}/{product}/v1/{model}/{region}/{date_str}/1/"
+            f"{product}__v1__{model}__{region}__{date_str}__1__{forecast_hour}.png"
+        )
+
+    def _resolve_latest_url(self, product, model, interval, region, forecast_hour):
+        """Probe model run cycles backwards to find the newest available run."""
+        # Round the current time down to the nearest valid run cycle.
+        now = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
+        cycle = now.replace(hour=(now.hour // interval) * interval)
+
+        # Look back up to ~10 days worth of run cycles.
+        for _ in range((10 * 24) // interval):
+            date_str = cycle.strftime("%Y%m%d%H")
+            url = self._build_url(product, model, region, date_str, forecast_hour)
+            try:
+                if requests.head(url, timeout=10).status_code == 200:
+                    return url
+            except requests.RequestException:
+                pass
+            cycle -= timedelta(hours=interval)
+
+        raise VisualizationError(
+            f"No IVT ensemble image found for {self.model} "
+            f"({region}, {forecast_hour}) in the last 10 days."
+        )

@@ -1,11 +1,9 @@
-from intake.source import base
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
 
 
-class LandfallingARScaleFrequencyPlots(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class LandfallingARScaleFrequencyPlots(TethysDashPlugin):
     name = "cw3e_landfalling_ar_scale_frequency_plots"
-    visualization_tags = [
+    tags = [
         "cw3e",
         "ar",
         "landfall",
@@ -13,8 +11,8 @@ class LandfallingARScaleFrequencyPlots(base.DataSource):
         "probability",
         "coastal",
     ]
-    visualization_description = "Frequency of AR events Plots. Includes Annual and Monthly frequencies as well as historical analysis. More information can be found at https://cw3e.ucsd.edu/Projects/ARCatalog/catalog.html"
-    visualization_args = {
+    description = "Frequency of AR events Plots. Includes Annual and Monthly frequencies as well as historical analysis. More information can be found at https://cw3e.ucsd.edu/Projects/ARCatalog/catalog.html"
+    args = {
         "latitude": "text",
         "plot_type": [
             {"value": "annual/annualfreq", "label": "Annual AR Frequency"},
@@ -29,17 +27,11 @@ class LandfallingARScaleFrequencyPlots(base.DataSource):
             },
         ],
     }
-    visualization_group = "CW3E"
-    visualization_label = "AR Landfall Frequencies"
-    visualization_type = "image"
-    visualization_attribution = "CW3E"
+    group = "CW3E"
+    label = "AR Landfall Frequencies"
+    type = "image"
+    attribution = "CW3E"
 
-    def __init__(self, latitude, plot_type, metadata=None):
-        # store important kwargs
-        self.latitude = latitude
-        self.plot_type = plot_type
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
 
         return f"https://cw3e.ucsd.edu/Projects/ARCatalog/images/{self.plot_type}-{self.latitude}.png"

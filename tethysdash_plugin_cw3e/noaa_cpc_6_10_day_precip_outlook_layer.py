@@ -1,23 +1,17 @@
-from intake.source import base
-from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder
+from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder, TethysDashPlugin
 
 
-class NOAACPC_6_10_DayPrecipOutlookLayer(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class NOAACPC_6_10_DayPrecipOutlookLayer(TethysDashPlugin):
     name = "noaa_cpc_6_10_day_precip_outlook_layer"
-    visualization_args = {}
-    visualization_group = "NOAA"
-    visualization_label = "CPC 6-10 Day Precipitation Outlook"
-    visualization_type = "map_layer"
-    visualization_tags = ["noaa", "map", "map_layer", "precipitation"]
-    visualization_description = "The CPC 6 to 10 Day Outlook Web Service consist of Forecasted US Weather Outlooks polygon layers of precipitation for the U.S. for 6-10 days. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_6_10_day_outlk/MapServer"
-    visualization_attribution = "CW3E"
+    args = {}
+    group = "NOAA"
+    label = "CPC 6-10 Day Precipitation Outlook"
+    type = "map_layer"
+    tags = ["noaa", "map", "map_layer", "precipitation"]
+    description = "The CPC 6 to 10 Day Outlook Web Service consist of Forecasted US Weather Outlooks polygon layers of precipitation for the U.S. for 6-10 days. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_6_10_day_outlk/MapServer"
+    attribution = "CW3E"
 
-    def __init__(self, metadata=None, **kwargs):
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
         """
         Return map layer configuration
         """

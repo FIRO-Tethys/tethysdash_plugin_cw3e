@@ -1,16 +1,13 @@
-from intake.source import base
-from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder
+from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder, TethysDashPlugin
 
 
-class IVTAndRelativeHumidityPoints(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class IVTAndRelativeHumidityPoints(TethysDashPlugin):
     name = "cw3e_ivt_and_relative_humidity_points"
-    visualization_args = {}
-    visualization_group = "CW3E"
-    visualization_label = "IVT and Relative Humidity Points"
-    visualization_type = "map_layer"
-    visualization_tags = [
+    args = {}
+    group = "CW3E"
+    label = "IVT and Relative Humidity Points"
+    type = "map_layer"
+    tags = [
         "cw3e",
         "map",
         "map_layer",
@@ -20,13 +17,10 @@ class IVTAndRelativeHumidityPoints(base.DataSource):
         "relative",
         "humidity",
     ]
-    visualization_description = "A collection of points used for IVT and Relative Humidity plots. More information can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
-    visualization_attribution = "CW3E"
+    description = "A collection of points used for IVT and Relative Humidity plots. More information can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
+    attribution = "CW3E"
 
-    def __init__(self, metadata=None, **kwargs):
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
         """
         Return map layer configuration
         """

@@ -1,19 +1,17 @@
-from intake.source import base
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
 
 
-class SSMISProducts(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class SSMISProducts(TethysDashPlugin):
     name = "noaa_ssmis_products"
-    visualization_tags = [
+    tags = [
         "cw3e",
         "noaa",
         "water vapor",
         "rain rate",
         "cloud liquid water",
     ]
-    visualization_description = "Displays the latest SSMIS water data products. More information can be found at https://cw3e.ucsd.edu/satellite/#ARD"
-    visualization_args = {
+    description = "Displays the latest SSMIS water data products. More information can be found at https://cw3e.ucsd.edu/satellite/#ARD"
+    args = {
         "domain": [
             {"label": "Pacific", "value": "6hr"},
             {"label": "US West Coast", "value": "hi"},
@@ -24,17 +22,11 @@ class SSMISProducts(base.DataSource):
             {"label": "Rain Rate", "value": "recent_rn2"},
         ],
     }
-    visualization_group = "NOAA"
-    visualization_label = "SSMIS Products"
-    visualization_type = "image"
-    visualization_attribution = "NOAA"
+    group = "NOAA"
+    label = "SSMIS Products"
+    type = "image"
+    attribution = "NOAA"
 
-    def __init__(self, domain, data_type, metadata=None):
-        # store important kwargs
-        self.domain = domain
-        self.data_type = data_type
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
 
         return f"http://www.esrl.noaa.gov/psd/psd2/coastal/satres/data/images/wx_cl/P3/{self.domain}/{self.data_type}.png"

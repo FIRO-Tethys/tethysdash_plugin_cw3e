@@ -1,13 +1,11 @@
-from intake.source import base
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
 
 
-class WaterVaporFlux(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class WaterVaporFlux(TethysDashPlugin):
     name = "noaa_water_vapor_flux"
-    visualization_tags = ["cw3e", "noaa", "water", "vapor", "flux"]
-    visualization_description = "Shows wind at various levels colored by speed, freezing layer (black dots/dashed line), integrated water vapor (cyan line), upslope wind speed (purple or brown bars), upslope integrated water vapor flux (blue line), and hourly precipitation (green or red bars) with time moving from right to left. More information can be found at https://cw3e.ucsd.edu/real-time-observations/"
-    visualization_args = {
+    tags = ["cw3e", "noaa", "water", "vapor", "flux"]
+    description = "Shows wind at various levels colored by speed, freezing layer (black dots/dashed line), integrated water vapor (cyan line), upslope wind speed (purple or brown bars), upslope integrated water vapor flux (blue line), and hourly precipitation (green or red bars) with time moving from right to left. More information can be found at https://cw3e.ucsd.edu/real-time-observations/"
+    args = {
         "location": [
             {"label": "Astoria, OR", "value": "ast"},
             {"label": "Bodega Bay, CA", "value": "bby"},
@@ -19,7 +17,7 @@ class WaterVaporFlux(base.DataSource):
             {"label": "Santa Barbara, CA", "value": "sba"},
             {"label": "Twitchell Island, CA", "value": "tci"},
         ],
-        "type": [
+        "display_type": [
             {"label": "Map", "value": "Map"},
             {
                 "label": "Plot",
@@ -34,20 +32,20 @@ class WaterVaporFlux(base.DataSource):
             },
         ],
     }
-    visualization_group = "NOAA"
-    visualization_label = "Water Vapor Flux Analyses and Forecasts"
-    visualization_type = "image"
-    visualization_attribution = "NOAA"
+    group = "NOAA"
+    label = "Water Vapor Flux Analyses and Forecasts"
+    type = "image"
+    attribution = "NOAA"
 
-    def __init__(self, location, type, metadata=None, **kwargs):
+    def __init__(self, location, display_type, metadata=None, **kwargs):
         # store important kwargs
         self.location = location
-        self.type = type
-        self.data_source = kwargs.get("type.data_source")
+        self.display_type = display_type
+        self.data_source = kwargs.get("display_type.data_source")
         super().__init__(metadata=metadata)
 
-    def read(self):
-        if self.type == "Map":
+    def run(self):
+        if self.display_type == "Map":
             return f"https://cw3e.ucsd.edu/images/aro/maps/WVFlux_{self.location}.png"
 
         return f"https://cw3e.ucsd.edu/images/aro/images/{self.location}_{self.data_source}.gif"

@@ -1,23 +1,17 @@
-from intake.source import base
-from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder
+from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder, TethysDashPlugin
 
 
-class NOAACPC_8_14_DayTempOutlookLayer(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class NOAACPC_8_14_DayTempOutlookLayer(TethysDashPlugin):
     name = "noaa_cpc_8_14_day_temp_outlook_layer"
-    visualization_args = {}
-    visualization_group = "NOAA"
-    visualization_label = "CPC 8-14 Day Temperature Outlook"
-    visualization_type = "map_layer"
-    visualization_tags = ["noaa", "map", "map_layer", "temperature"]
-    visualization_description = "The CPC 8 to 14 Day Outlook Web Service consist of Forecasted US Weather Outlooks polygon layers of temperature for the U.S. for 8-14 days. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_8_14_day_outlk/MapServer"
-    visualization_attribution = "NOAA"
+    args = {}
+    group = "NOAA"
+    label = "CPC 8-14 Day Temperature Outlook"
+    type = "map_layer"
+    tags = ["noaa", "map", "map_layer", "temperature"]
+    description = "The CPC 8 to 14 Day Outlook Web Service consist of Forecasted US Weather Outlooks polygon layers of temperature for the U.S. for 8-14 days. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_8_14_day_outlk/MapServer"
+    attribution = "NOAA"
 
-    def __init__(self, metadata=None, **kwargs):
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
         """
         Return map layer configuration
         """

@@ -1,13 +1,11 @@
-from intake.source import base
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
 
 
-class QPE(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class QPE(TethysDashPlugin):
     name = "cw3e_qpe"
-    visualization_tags = ["cw3e", "noaa", "qpe", "precipitation"]
-    visualization_description = "Gridded precipitation data are the National Stage IV Quantitative Precipitation Estimate (QPE) Product, provided by the NOAA/NCEP/EMC and PRISM daily precipitation estimate from PRISM Climate Group, Oregon State University. More information can be found at https://cw3e.ucsd.edu/precipitation-observations/#WYTD"
-    visualization_args = {
+    tags = ["cw3e", "noaa", "qpe", "precipitation"]
+    description = "Gridded precipitation data are the National Stage IV Quantitative Precipitation Estimate (QPE) Product, provided by the NOAA/NCEP/EMC and PRISM daily precipitation estimate from PRISM Climate Group, Oregon State University. More information can be found at https://cw3e.ucsd.edu/precipitation-observations/#WYTD"
+    args = {
         "time_range": [
             {"label": "Past 1 Hour", "value": "HourlyPrecip"},
             {"label": "Past 6 Hours", "value": "SixHrPrecip"},
@@ -30,10 +28,10 @@ class QPE(base.DataSource):
             },
         ],
     }
-    visualization_group = "CW3E"
-    visualization_label = "National Stage IV QPE"
-    visualization_type = "image"
-    visualization_attribution = "CW3E"
+    group = "CW3E"
+    label = "National Stage IV QPE"
+    type = "image"
+    attribution = "CW3E"
 
     def __init__(self, time_range, metadata=None, **kwargs):
         # store important kwargs
@@ -41,7 +39,7 @@ class QPE(base.DataSource):
         self.comparison = kwargs.get("time_range.plot_type")
         super().__init__(metadata=metadata)
 
-    def read(self):
+    def run(self):
         if self.time_range == "HourlyPrecip":
             return "https://cw3e.ucsd.edu/images/precip/Hourly_Precip/HourlyPrecip_Latest.png"
 

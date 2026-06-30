@@ -1,4 +1,22 @@
-from intake.source import base
+from datetime import datetime, timedelta, timezone
+import requests
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
+from tethysapp.tethysdash.exceptions import VisualizationError
+
+BASE_URL = "https://cw3e.ucsd.edu/images/arscale_ensemble_fourpanel/v1"
+
+# model display label -> v1 model path code and run-cycle interval (hours).
+# GEFS runs every 6 hours (00/06/12/18Z); ECMWF runs only at 00Z and 12Z.
+MODELS = {
+    "U.S. National Model (GEFS)": {"code": "GEFS_50", "cycle_interval": 6},
+    "European Model (ECMWF)": {"code": "ECMWF_ENS", "cycle_interval": 12},
+}
+
+
+def _trim(value):
+    """"60.0" -> "60"; "59.5" -> "59.5" (legacy West-WRF location formatting)."""
+    number = float(value)
+    return str(int(number)) if number.is_integer() else str(number)
 
 coastal_locations = [
     {"value": "60.0_220.0", "label": "60.0N 140.0W"},
@@ -262,19 +280,22 @@ interior_west = [
 ]
 
 
-class ARScaleEnsembleDiagnostics(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class ARScaleEnsembleDiagnostics(TethysDashPlugin):
     name = "cw3e_ar_scale_ensemble_diagnostics"
-    visualization_tags = [
+    tags = [
         "cw3e",
         "ar",
         "scale",
         "plume",
     ]
-    visualization_description = "A four panel image depicting IVT Ensemble Foreacts, probability of AR Scale conditions, map of maximum AR Scale forecast for the next 7 days, and AR Scale magnitude and timing. More information can be found at https://cw3e.ucsd.edu/arscale/"
-    visualization_args = {
-        "model": ["European Model (ECMWF)", "U.S. National Model (GEFS)"],
+    description = "A four panel image depicting IVT Ensemble Foreacts, probability of AR Scale conditions, map of maximum AR Scale forecast for the next 7 days, and AR Scale magnitude and timing. More information can be found at https://cw3e.ucsd.edu/arscale/"
+    args = {
+        "date": "date",
+        "model": [
+            "European Model (ECMWF)",
+            "U.S. National Model (GEFS)",
+            "West-WRF",
+        ],
         "transect_location": [
             {
                 "value": "coast",
@@ -298,37 +319,81 @@ class ARScaleEnsembleDiagnostics(base.DataSource):
             },
         ],
     }
-    visualization_group = "CW3E"
-    visualization_label = "AR Scale Ensemble Diagnostics"
-    visualization_type = "image"
-    visualization_attribution = "CW3E"
+    group = "CW3E"
+    label = "AR Scale Ensemble Diagnostics"
+    type = "image"
+    attribution = "CW3E"
 
-    def __init__(
-        self,
-        model,
-        transect_location,
-        metadata=None,
-        **kwargs,
-    ):
-        # store important kwargs
-        self.transect_location = transect_location
-        self.location = kwargs.get("transect_location.location")
-        self.model = model
-        super().__init__(metadata=metadata)
+    @property
+    def location(self):
+        """The "<lat>_<lon360>" value from the transect's nested "location"
+        sub-arg. Sent as the dotted key "transect_location.location", which
+        cannot be read via attribute access, so use get_arg()."""
+        return self.get_arg("transect_location.location")
 
-    def read(self):
+    def run(self):
+        # West-WRF has no v1 product (not run in real-time); use the legacy URL.
+        if self.model == "West-WRF":
+            return (
+                "https://cw3e.ucsd.edu/images/wwrf/images/ensemble/ARScale/"
+                f"ARScale_Plume_EnsembleBars_Boxes_{self._legacy_location()}.png"
+            )
 
-        if (
-            self.model == "U.S. National Model (GEFS)"
-            or self.model == "GFS Ensemble"
-            or self.model == "GEFS"
-        ):
-            model_url = "gefs"
-        elif (
-            self.model == "European Model (ECMWF)"
-            or self.model == "ECMWF EPS"
-            or self.model == "ECMWF"
-        ):
-            model_url = "ECMWF"
+        model_info = MODELS[self.model]
+        model = model_info["code"]
+        interval = model_info["cycle_interval"]
+        location = self._location_segment()
 
-        return f"https://cw3e.ucsd.edu/images/{model_url}/ARScale/{self.transect_location}/{model_url.upper()}_ARScale_FourPanel_{self.transect_location}_{self.location}.png"
+        if self.date == "latest":
+            return self._resolve_latest_url(model, interval, location)
+
+        # Validate the requested run cycle for the selected model.
+        if self.date.hour % interval != 0:
+            valid = ", ".join(f"{h:02d}Z" for h in range(0, 24, interval))
+            raise VisualizationError(
+                f"{self.model} model runs are only available at {valid}."
+            )
+
+        date_str = self.date.strftime("%Y%m%d%H")
+        return self._build_url(model, location, date_str)
+
+    def _location_segment(self):
+        """Build the "<transect>_<lat>N_<lon>W" path component from the selected
+        transect and the stored "<lat>_<lon360>" location value."""
+        lat_str, lon360_str = self.location.split("_")
+        lon_west = 360 - float(lon360_str)
+        return f"{self.transect_location}_{float(lat_str):.1f}N_{lon_west:.1f}W"
+
+    def _legacy_location(self):
+        """Build the legacy "<lat>-<lon360>" location token (e.g. "60-220",
+        "59.5-220.5") from the stored "<lat>_<lon360>" value."""
+        return "-".join(_trim(p) for p in self.location.split("_"))
+
+    def _build_url(self, model, location, date_str):
+        return (
+            f"{BASE_URL}/{model}/{location}/{date_str}/1/"
+            f"arscale_ensemble_fourpanel__v1__{model}__{location}__"
+            f"{date_str}__1__F168.png"
+        )
+
+    def _resolve_latest_url(self, model, interval, location):
+        """Probe model run cycles backwards to find the newest available run."""
+        # Round the current time down to the nearest valid run cycle.
+        now = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
+        cycle = now.replace(hour=(now.hour // interval) * interval)
+
+        # Look back up to ~10 days worth of run cycles.
+        for _ in range((10 * 24) // interval):
+            date_str = cycle.strftime("%Y%m%d%H")
+            url = self._build_url(model, location, date_str)
+            try:
+                if requests.head(url, timeout=10).status_code == 200:
+                    return url
+            except requests.RequestException:
+                pass
+            cycle -= timedelta(hours=interval)
+
+        raise VisualizationError(
+            f"No AR Scale ensemble diagnostics image found for {self.model} "
+            f"({location}) in the last 10 days."
+        )

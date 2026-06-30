@@ -1,23 +1,17 @@
-from intake.source import base
-from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder
+from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder, TethysDashPlugin
 
 
-class SnowLevelRadarLayer(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class SnowLevelRadarLayer(TethysDashPlugin):
     name = "cw3e_snow_level_radar_layer"
-    visualization_args = {}
-    visualization_group = "CW3E"
-    visualization_label = "Snow Level Radar Layer"
-    visualization_type = "map_layer"
-    visualization_tags = ["cw3e", "map", "map_layer", "snow", "level", "radar"]
-    visualization_description = "A collection of points used for Snow Level Radar. More information can be found at https://cw3e.ucsd.edu/DSMaps/DS_freezing.html"
-    visualization_attribution = "CW3E"
+    args = {}
+    group = "CW3E"
+    label = "Snow Level Radar Layer"
+    type = "map_layer"
+    tags = ["cw3e", "map", "map_layer", "snow", "level", "radar"]
+    description = "A collection of points used for Snow Level Radar. More information can be found at https://cw3e.ucsd.edu/DSMaps/DS_freezing.html"
+    attribution = "CW3E"
 
-    def __init__(self, metadata=None, **kwargs):
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
         """
         Return map layer configuration
         """

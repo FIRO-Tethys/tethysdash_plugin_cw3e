@@ -1,23 +1,17 @@
-from intake.source import base
-from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder
+from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder, TethysDashPlugin
 
 
-class NOAACPC_30_DayTempOutlookLayer(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class NOAACPC_30_DayTempOutlookLayer(TethysDashPlugin):
     name = "noaa_cpc_30_day_temp_outlook_layer"
-    visualization_args = {}
-    visualization_group = "NOAA"
-    visualization_label = "CPC 30 Day Temperature Outlook"
-    visualization_type = "map_layer"
-    visualization_tags = ["noaa", "map", "map_layer", "temperature"]
-    visualization_description = "Climate Predictive Center (CPC) Monthly Temperature Outlook Web Service consist of polygon layers of temperature forecast probabilities for the U.S. for the next calendar month. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_mthly_temp_outlk/MapServer"
-    visualization_attribution = "NOAA"
+    args = {}
+    group = "NOAA"
+    label = "CPC 30 Day Temperature Outlook"
+    type = "map_layer"
+    tags = ["noaa", "map", "map_layer", "temperature"]
+    description = "Climate Predictive Center (CPC) Monthly Temperature Outlook Web Service consist of polygon layers of temperature forecast probabilities for the U.S. for the next calendar month. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_mthly_temp_outlk/MapServer"
+    attribution = "NOAA"
 
-    def __init__(self, metadata=None, **kwargs):
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
         """
         Return map layer configuration
         """

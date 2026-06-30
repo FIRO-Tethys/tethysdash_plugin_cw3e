@@ -1,30 +1,23 @@
-from intake.source import base
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
 
 
-class RadiometricWindProfilers(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class RadiometricWindProfilers(TethysDashPlugin):
     name = "cw3e_radiometric_wind_profilers"
-    visualization_tags = [
+    tags = [
         "cw3e",
         "radiometric",
         "wind",
         "profilers",
     ]
-    visualization_description = "Plots show wind barbs depicting the horizontal wind speed and direction, colored based on wind speed (knots) at the selected location over the previous 48 hours (x-axis) from the surface up to 3 km above ground level (y-axis). The top panel shows a scatter plot of rain intensity (mm/h), the middle panel shows the radar reflectivity (dBZ), and the bottom panel shows the drop size distribution. More information can be found at https://cw3e.ucsd.edu/cw3e_observations_wind_profilers/"
-    visualization_args = {"type": ["Plot", "Map"]}
-    visualization_group = "CW3E"
-    visualization_label = "Radiometric Wind Profilers"
-    visualization_type = "image"
-    visualization_attribution = "CW3E"
+    description = "Plots show wind barbs depicting the horizontal wind speed and direction, colored based on wind speed (knots) at the selected location over the previous 48 hours (x-axis) from the surface up to 3 km above ground level (y-axis). The top panel shows a scatter plot of rain intensity (mm/h), the middle panel shows the radar reflectivity (dBZ), and the bottom panel shows the drop size distribution. More information can be found at https://cw3e.ucsd.edu/cw3e_observations_wind_profilers/"
+    args = {"display_type": ["Plot", "Map"]}
+    group = "CW3E"
+    label = "Radiometric Wind Profilers"
+    type = "image"
+    attribution = "CW3E"
 
-    def __init__(self, type, metadata=None):
-        # store important
-        self.type = type
-        super().__init__(metadata=metadata)
-
-    def read(self):
-        if self.type == "Map":
+    def run(self):
+        if self.display_type == "Map":
             return "https://cw3e.ucsd.edu/images/CW3E_Obs/maps/CW3E_Obs_WindProfiler_BFS.png"
 
         return (

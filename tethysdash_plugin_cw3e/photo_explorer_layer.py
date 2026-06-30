@@ -1,22 +1,16 @@
-from intake.source import base
-from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder
+from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder, TethysDashPlugin
 
 
-class USGSPhotoExplorerLayer(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class USGSPhotoExplorerLayer(TethysDashPlugin):
     name = "usgs_photo_explorer_layer"
-    visualization_args = {}
-    visualization_group = "USGS"
-    visualization_label = "USGS Photo Explorer Layer"
-    visualization_type = "map_layer"
-    visualization_tags = ["usgs", "photo"]
-    visualization_description = "A collection of points used for USGS Photo Explorer Sites. More information can be found at https://www.usgs.gov/apps/ecosheds/fpe/#/explorer"
+    args = {}
+    group = "USGS"
+    label = "USGS Photo Explorer Layer"
+    type = "map_layer"
+    tags = ["usgs", "photo"]
+    description = "A collection of points used for USGS Photo Explorer Sites. More information can be found at https://www.usgs.gov/apps/ecosheds/fpe/#/explorer"
 
-    def __init__(self, metadata=None, **kwargs):
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
         """
         Return map layer configuration
         """

@@ -1,19 +1,17 @@
-from intake.source import base
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
 
 
-class NOAADisdrometer(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class NOAADisdrometer(TethysDashPlugin):
     name = "noaa_disdrometer"
-    visualization_tags = [
+    tags = [
         "cw3e",
         "noaa",
         "disdrometer",
         "rain",
         "precipitation",
     ]
-    visualization_description = "Shows a comparison between S-band radar at multiple sites and the 0.5° elevation scan from the Sacramento, Ca WSR-88D scanning radar, as well as disdrometer and tipping bucket rain gauge data. More information can be found at https://cw3e.ucsd.edu/real-time-observations/"
-    visualization_args = {
+    description = "Shows a comparison between S-band radar at multiple sites and the 0.5° elevation scan from the Sacramento, Ca WSR-88D scanning radar, as well as disdrometer and tipping bucket rain gauge data. More information can be found at https://cw3e.ucsd.edu/real-time-observations/"
+    args = {
         "location": [
             {"label": "Bodega Bay, CA", "value": "bby"},
             {"label": "Cazadero, CA", "value": "czc"},
@@ -22,21 +20,15 @@ class NOAADisdrometer(base.DataSource):
             {"label": "Santa Rosa, CA", "value": "str"},
             {"label": "Twitchell Island, CA", "value": "tci"},
         ],
-        "type": ["Plot", "Map"],
+        "display_type": ["Plot", "Map"],
     }
-    visualization_group = "NOAA"
-    visualization_label = "Disdrometer"
-    visualization_type = "image"
-    visualization_attribution = "NOAA"
+    group = "NOAA"
+    label = "Disdrometer"
+    type = "image"
+    attribution = "NOAA"
 
-    def __init__(self, location, type, metadata=None):
-        # store important kwargs
-        self.location = location
-        self.type = type
-        super().__init__(metadata=metadata)
-
-    def read(self):
-        if self.type == "Map":
+    def run(self):
+        if self.display_type == "Map":
             return f"https://cw3e.ucsd.edu/images/aro/maps/disd_{self.location}.png"
 
         return f"https://cw3e.ucsd.edu/images/aro/images/{self.location}_latest_PrecipAnalysis.gif"

@@ -1,12 +1,10 @@
-from intake.source import base
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
 from .constants import SurfaceMeterologyLocations
 
 
-class SurfaceMeterology(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class SurfaceMeterology(TethysDashPlugin):
     name = "cw3e_surface_meterology"
-    visualization_tags = [
+    tags = [
         "cw3e",
         "temperature",
         "watershed",
@@ -20,20 +18,15 @@ class SurfaceMeterology(base.DataSource):
         "soil moisture",
         "soil temperature",
     ]
-    visualization_description = "Surface meteorological and soil data observed at the specified location. Image includes charts for temperature and relative humidity, sea level pressure and solar radiation, wind speed and direction, hourly precipitation and accumulated precipitation, soil moisture at various depths, and soil temperature at the same depths as soil moisture. More information can be found at https://cw3e.ucsd.edu/cw3e_observations_surfacemet/"
-    visualization_args = {
+    description = "Surface meteorological and soil data observed at the specified location. Image includes charts for temperature and relative humidity, sea level pressure and solar radiation, wind speed and direction, hourly precipitation and accumulated precipitation, soil moisture at various depths, and soil temperature at the same depths as soil moisture. More information can be found at https://cw3e.ucsd.edu/cw3e_observations_surfacemet/"
+    args = {
         "watershed_location": SurfaceMeterologyLocations,
     }
-    visualization_group = "CW3E"
-    visualization_label = "Surface Meteorology"
-    visualization_type = "image"
-    visualization_attribution = "CW3E"
+    group = "CW3E"
+    label = "Surface Meteorology"
+    type = "image"
+    attribution = "CW3E"
 
-    def __init__(self, watershed_location, metadata=None):
-        # store important kwargs
-        self.watershed_location = watershed_location
-        super(SurfaceMeterology, self).__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
 
         return f"https://cw3e.ucsd.edu/images/CW3E_Obs/{self.watershed_location}_Latest_SurfaceMet.png"

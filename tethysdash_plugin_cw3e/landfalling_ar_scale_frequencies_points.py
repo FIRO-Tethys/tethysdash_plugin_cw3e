@@ -1,24 +1,18 @@
-from intake.source import base
 from .constants import AR_CATALOG_POINTS
-from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder
+from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder, TethysDashPlugin
 
 
-class LandfallingARScaleFrequencyPoints(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class LandfallingARScaleFrequencyPoints(TethysDashPlugin):
     name = "cw3e_landfalling_ar_scale_frequency_points"
-    visualization_args = {}
-    visualization_group = "CW3E"
-    visualization_label = "Landfalling AR Scale Frequency Points"
-    visualization_type = "map_layer"
-    visualization_tags = ["cw3e", "map", "map_layer", "landfall", "ar"]
-    visualization_description = "A collection of points used for AR Scale Frequency plots. More information can be found at https://cw3e.ucsd.edu/Projects/ARCatalog/catalog.html"
-    visualization_attribution = "CW3E"
+    args = {}
+    group = "CW3E"
+    label = "Landfalling AR Scale Frequency Points"
+    type = "map_layer"
+    tags = ["cw3e", "map", "map_layer", "landfall", "ar"]
+    description = "A collection of points used for AR Scale Frequency plots. More information can be found at https://cw3e.ucsd.edu/Projects/ARCatalog/catalog.html"
+    attribution = "CW3E"
 
-    def __init__(self, metadata=None, **kwargs):
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
         """
         Return map layer configuration
         """

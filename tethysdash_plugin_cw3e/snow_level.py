@@ -1,13 +1,11 @@
-from intake.source import base
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
 
 
-class SnowLevel(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class SnowLevel(TethysDashPlugin):
     name = "noaa_snow_level"
-    visualization_tags = ["cw3e", "noaa", "snow", "level"]
-    visualization_description = "Shows data from various snow level radars. Each plot shows color shading of vertical radial velocity or reflectivity and circles depicting the snow level indicated by a radar bright band when bright band precipitation is present. More information can be found at https://cw3e.ucsd.edu/real-time-observations/"
-    visualization_args = {
+    tags = ["cw3e", "noaa", "snow", "level"]
+    description = "Shows data from various snow level radars. Each plot shows color shading of vertical radial velocity or reflectivity and circles depicting the snow level indicated by a radar bright band when bright band precipitation is present. More information can be found at https://cw3e.ucsd.edu/real-time-observations/"
+    args = {
         "location": [
             {"label": "Colfax", "value": "cff"},
             {"label": "Cazadero", "value": "czc"},
@@ -32,7 +30,7 @@ class SnowLevel(base.DataSource):
             {"label": "Seven Oaks Dam", "value": "sod"},
             {"label": "Twitchell Island", "value": "tci"},
         ],
-        "type": [
+        "display_type": [
             {"label": "Map", "value": "Map"},
             {
                 "label": "Plot",
@@ -46,20 +44,20 @@ class SnowLevel(base.DataSource):
             },
         ],
     }
-    visualization_group = "NOAA"
-    visualization_label = "Snow Level Radars"
-    visualization_type = "image"
-    visualization_attribution = "NOAA"
+    group = "NOAA"
+    label = "Snow Level Radars"
+    type = "image"
+    attribution = "NOAA"
 
-    def __init__(self, location, type, metadata=None, **kwargs):
+    def __init__(self, location, display_type, metadata=None, **kwargs):
         # store important kwargs
         self.location = location
-        self.type = type
-        self.data_source = kwargs.get("type.data_source")
+        self.display_type = display_type
+        self.data_source = kwargs.get("display_type.data_source")
         super().__init__(metadata=metadata)
 
-    def read(self):
-        if self.type == "Map":
+    def run(self):
+        if self.display_type == "Map":
             return f"https://cw3e.ucsd.edu/images/aro/maps/slr_{self.location}.png"
 
         if self.location in ["dla", "gpo", "hdw", "igm", "mak", "nbb", "pvc", "sod"]:

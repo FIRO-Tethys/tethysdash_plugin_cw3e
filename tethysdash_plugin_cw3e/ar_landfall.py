@@ -1,4 +1,7 @@
-from intake.source import base
+from datetime import datetime, timedelta, timezone
+import requests
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
+from tethysapp.tethysdash.exceptions import VisualizationError
 from .constants import (
     ARLandfallBaseUrl,
     ARLandfallModelLocationOptions,
@@ -6,12 +9,80 @@ from .constants import (
     ARLandfallModelOptions,
 )
 
+# data_source display label -> v1 landfall-tool model path code.
+NEW_SCHEME_MODELS = {
+    "GFS Ensemble": "GEFS_50",
+    "ECMWF EPS": "ECMWF_ENS",
+    "ECMWF minus GFS": "ECMWF_ENS-GEFS_50",
+}
 
-class ARLandfall(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+# model_type display label -> (v1 product path component, forecast hour token).
+# Vectors products run to F168; all others run to F384.
+PRODUCT_CODES = {
+    "Control IVT magnitude": ("ivtcontrol", "F384"),
+    "Ensemble mean magnitude": ("ivtmean", "F384"),
+    "Probability of IVT >150 kg/m/s": ("ivt150_probability", "F384"),
+    "Probability of IVT >250 kg/m/s": ("ivt250_probability", "F384"),
+    "Probability of IVT >500 kg/m/s": ("ivt500_probability", "F384"),
+    "Probability of IVT >750 kg/m/s": ("ivt750_probability", "F384"),
+    "IVT >150 kg/m/s with Vectors": ("ivt150_vectors", "F168"),
+    "IVT >250 kg/m/s with Vectors": ("ivt250_vectors", "F168"),
+    "IVT >500 kg/m/s with Vectors": ("ivt500_vectors", "F168"),
+    "IVT >750 kg/m/s with Vectors": ("ivt750_vectors", "F168"),
+}
+
+# "with Vectors" model types are published for GFS Ensemble and ECMWF EPS, but
+# not for the ECMWF-minus-GFS difference field.
+VECTOR_MODEL_TYPES = {
+    "IVT >150 kg/m/s with Vectors",
+    "IVT >250 kg/m/s with Vectors",
+    "IVT >500 kg/m/s with Vectors",
+    "IVT >750 kg/m/s with Vectors",
+}
+VECTOR_CAPABLE_SOURCES = {"GFS Ensemble", "ECMWF EPS"}
+
+# model_location display label -> v1 location path component.
+LOCATION_CODES = {
+    "Coastal": "coast",
+    "Foothills": "foothills",
+    "Inland": "inland",
+    "Interior West": "intwest",
+}
+
+# West-WRF is not on the v1 scheme (and is not run in real-time); it uses the
+# legacy "_current.png" landfall-tool URL. model_type / model_location -> suffix.
+WEST_WRF_TYPE_SUFFIXES = {
+    "Control IVT magnitude": "_control",
+    "Ensemble mean magnitude": "_ensemble_mean",
+    "Probability of IVT >150 kg/m/s": "_150",
+    "Probability of IVT >250 kg/m/s": "_250",
+    "Probability of IVT >500 kg/m/s": "_500",
+    "Probability of IVT >750 kg/m/s": "_750",
+    "IVT >150 kg/m/s with Vectors": "_Vectors_150",
+    "IVT >250 kg/m/s with Vectors": "_Vectors_250",
+    "IVT >500 kg/m/s with Vectors": "_Vectors_500",
+    "IVT >750 kg/m/s with Vectors": "_Vectors_750",
+}
+WEST_WRF_LOCATION_SUFFIXES = {
+    "Coastal": "_coast",
+    "Foothills": "_foothills",
+    "Inland": "_inland",
+    "Interior West": "_intwest",
+}
+
+
+class ARLandfall(TethysDashPlugin):
     name = "cw3e_ar_landfall"
-    visualization_tags = [
+    args = {
+        "date": "date",
+        "data_source": ARLandfallModelOptions,
+        "model_type": ARLandfallModelTypeOptions,
+        "model_location": ARLandfallModelLocationOptions,
+    }
+    group = "CW3E"
+    label = "AR Landfall Tool"
+    type = "image"
+    tags = [
         "cw3e",
         "ar",
         "landfall",
@@ -22,67 +93,66 @@ class ARLandfall(base.DataSource):
         "probability",
         "coastal",
     ]
-    visualization_description = "Displays the likelihood and timing of AR conditions at each point on the map in a line. Conditions for multiple models, AR types, and locations can be chosen. More information about individual AR products can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
-    visualization_args = {
-        "data_source": ARLandfallModelOptions,
-        "model_type": ARLandfallModelTypeOptions,
-        "model_location": ARLandfallModelLocationOptions,
-    }
-    visualization_group = "CW3E"
-    visualization_label = "AR Landfall Tool"
-    visualization_type = "image"
+    description = "Displays the likelihood and timing of AR conditions at each point on the map in a line. Conditions for multiple models, AR types, and locations can be chosen. More information about individual AR products can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
 
-    def __init__(self, data_source, model_type, model_location, metadata=None):
-        # store important kwargs
-        self.data_source = data_source
-        self.model_type = model_type
-        self.model_location = model_location
-        super(ARLandfall, self).__init__(metadata=metadata)
+    def run(self):
+        """Return the AR landfall image URL"""
+        # West-WRF has no v1 product (not run in real-time); use the legacy URL.
+        if self.data_source == "West-WRF Ensemble":
+            return (
+                f"{ARLandfallBaseUrl}wwrf/images/ensemble/LFT/US-west/"
+                f"W-WRF_LandfallTool{WEST_WRF_TYPE_SUFFIXES[self.model_type]}"
+                f"{WEST_WRF_LOCATION_SUFFIXES[self.model_location]}_current.png"
+            )
 
-    def read(self):
-        """Return a version of the xarray with all the data in memory"""
+        # The only unavailable combination is the ECMWF-minus-GFS difference
+        # field with vectors, which is not published in any scheme.
+        if (
+            self.data_source == "ECMWF minus GFS"
+            and self.model_type in VECTOR_MODEL_TYPES
+        ):
+            raise VisualizationError(
+                "Vectors products are not available for the ECMWF minus GFS "
+                "difference field."
+            )
 
-        model_sources = {
-            "GFS Ensemble": ARLandfallBaseUrl
-            + "gefs/v12/LFT/US-west/GEFS_LandfallTool",
-            "GEFS": ARLandfallBaseUrl + "gefs/v12/LFT/US-west/GEFS_LandfallTool",
-            "U.S. National Model (GEFS)": ARLandfallBaseUrl
-            + "gefs/v12/LFT/US-west/GEFS_LandfallTool",
-            "ECMWF EPS": ARLandfallBaseUrl
-            + "ECMWF/ensemble/LandfallTool/US-west/ECMWF_LandfallTool",
-            "European Model (ECMWF)": ARLandfallBaseUrl
-            + "ECMWF/ensemble/LandfallTool/US-west/ECMWF_LandfallTool",
-            "ECMWF": ARLandfallBaseUrl
-            + "ECMWF/ensemble/LandfallTool/US-west/ECMWF_LandfallTool",
-            "ECMWF minus GFS": ARLandfallBaseUrl
-            + "ECMWF/ensemble/LandfallTool/US-west/ECMWF-GEFS_LandfallTool",
-            "West-WRF Ensemble": ARLandfallBaseUrl
-            + "wwrf/images/ensemble/LFT/US-west/W-WRF_LandfallTool",
-        }
+        model = NEW_SCHEME_MODELS[self.data_source]
+        product, forecast_hour = PRODUCT_CODES[self.model_type]
+        location = LOCATION_CODES[self.model_location]
 
-        model_types = {
-            "Control IVT magnitude": "_control",
-            "Ensemble mean magnitude": "_ensemble_mean",
-            "Probability of IVT >150 kg/m/s": "_150",
-            "Probability of IVT >250 kg/m/s": "_250",
-            "Probability of IVT >500 kg/m/s": "_500",
-            "Probability of IVT >750 kg/m/s": "_750",
-            "IVT >150 kg/m/s with Vectors": "_Vectors_150",
-            "IVT >250 kg/m/s with Vectors": "_Vectors_250",
-            "IVT >500 kg/m/s with Vectors": "_Vectors_500",
-            "IVT >750 kg/m/s with Vectors": "_Vectors_750",
-        }
+        if self.date == "latest":
+            return self._resolve_latest_url(model, product, location, forecast_hour)
 
-        model_location = {
-            "Coastal": "_coast",
-            "Foothills": "_foothills",
-            "Inland": "_inland",
-            "Interior West": "_intwest",
-        }
+        date_str = self.date.strftime("%Y%m%d%H")
+        return self._build_url(model, product, location, date_str, forecast_hour)
 
+    def _build_url(self, model, product, location, date_str, forecast_hour):
         return (
-            model_sources[self.data_source]
-            + model_types[self.model_type]
-            + model_location[self.model_location]
-            + "_current.png"
+            f"{ARLandfallBaseUrl}landfalltool_{product}/v1/{model}/{location}/"
+            f"{date_str}/1/landfalltool_{product}__v1__{model}__{location}__"
+            f"{date_str}__1__{forecast_hour}.png"
+        )
+
+    def _resolve_latest_url(self, model, product, location, forecast_hour):
+        """Probe synoptic cycles backwards to find the newest available image."""
+        # Round the current time down to the nearest 6-hour synoptic cycle.
+        now = datetime.now(timezone.utc)
+        cycle = now.replace(
+            hour=(now.hour // 6) * 6, minute=0, second=0, microsecond=0
+        )
+
+        # Look back up to ~10 days (40 six-hour cycles).
+        for _ in range(40):
+            date_str = cycle.strftime("%Y%m%d%H")
+            url = self._build_url(model, product, location, date_str, forecast_hour)
+            try:
+                if requests.head(url, timeout=10).status_code == 200:
+                    return url
+            except requests.RequestException:
+                pass
+            cycle -= timedelta(hours=6)
+
+        raise VisualizationError(
+            f"No AR Landfall Tool image found for {self.data_source} "
+            f"({self.model_type}, {self.model_location}) in the last 10 days."
         )

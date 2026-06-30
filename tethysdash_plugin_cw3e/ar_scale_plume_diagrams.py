@@ -1,4 +1,41 @@
-from intake.source import base
+from datetime import datetime, timedelta, timezone
+import requests
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
+from tethysapp.tethysdash.exceptions import VisualizationError
+
+BASE_URL = "https://cw3e.ucsd.edu/images"
+
+# model display label -> v1 model path code and run-cycle interval (hours).
+# GEFS runs every 6 hours (00/06/12/18Z); ECMWF runs only at 00Z and 12Z.
+MODELS = {
+    "U.S. National Model (GEFS)": {"code": "GEFS_50", "cycle_interval": 6},
+    "European Model (ECMWF)": {"code": "ECMWF_ENS", "cycle_interval": 12},
+}
+
+# plot_type display label -> v1 product plot token.
+PLOT_TYPE_CODES = {
+    "AR Scale and IVT Analysis/Forecast": "plume",
+    "AR Scale": "matrix",
+}
+
+# AR_scale_calculated_by display label -> v1 product calculation token.
+CALC_CODES = {
+    "Control Forecast": "control",
+    "Ensemble Mean": "mean",
+}
+
+# plot_type display label -> legacy West-WRF product name (West-WRF has a single
+# product per plot type, with no control/mean distinction).
+WEST_WRF_PLOT_PRODUCTS = {
+    "AR Scale and IVT Analysis/Forecast": "ARScale_Plume",
+    "AR Scale": "ARScale_Matrix",
+}
+
+
+def _trim(value):
+    """"60.0" -> "60"; "59.5" -> "59.5" (legacy West-WRF location formatting)."""
+    number = float(value)
+    return str(int(number)) if number.is_integer() else str(number)
 
 coastal_locations = [
     {"value": "60.0_220.0", "label": "60.0N 140.0W"},
@@ -262,19 +299,18 @@ interior_west = [
 ]
 
 
-class ARScalePlumeDiagrams(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class ARScalePlumeDiagrams(TethysDashPlugin):
     name = "cw3e_ar_scale_plume_diagrams"
-    visualization_tags = [
+    tags = [
         "cw3e",
         "ar",
         "scale",
         "plume",
     ]
-    visualization_description = "Shows 1 of 3 plots. Can show the AR scale forecasted over the next 7 days from the ensemble mean or control forecast. Can show where each identified AR falls on the AR Scale matrix and how the AR scale is calculated, identified by letters at the top of each AR in the center diagram. Can also show a plume diagram (center) represents the integrated water vapor transport (IVT) and AR scale analysis (ie observed) and forecast. More information can be found at https://cw3e.ucsd.edu/arscale/"
-    visualization_args = {
-        "plot_type": ["Map", "AR Scale and IVT Analysis/Forecast", "AR Scale"],
+    description = "Shows 1 of 3 plots. Can show the AR scale forecasted over the next 7 days from the ensemble mean or control forecast. Can show where each identified AR falls on the AR Scale matrix and how the AR scale is calculated, identified by letters at the top of each AR in the center diagram. Can also show a plume diagram (center) represents the integrated water vapor transport (IVT) and AR scale analysis (ie observed) and forecast. More information can be found at https://cw3e.ucsd.edu/arscale/"
+    args = {
+        "date": "date",
+        "plot_type": ["AR Scale and IVT Analysis/Forecast", "AR Scale"],
         "transect_location": [
             {
                 "value": "coast",
@@ -297,13 +333,17 @@ class ARScalePlumeDiagrams(base.DataSource):
                 "sub_args": {"location": interior_west},
             },
         ],
-        "model": ["European Model (ECMWF)", "U.S. National Model (GEFS)"],
+        "model": [
+            "European Model (ECMWF)",
+            "U.S. National Model (GEFS)",
+            "West-WRF",
+        ],
         "AR_scale_calculated_by": ["Control Forecast", "Ensemble Mean"],
     }
-    visualization_group = "CW3E"
-    visualization_label = "AR Scale Plume Diagrams"
-    visualization_type = "image"
-    visualization_attribution = "CW3E"
+    group = "CW3E"
+    label = "AR Scale Plume Diagrams"
+    type = "image"
+    attribution = "CW3E"
 
     def __init__(
         self,
@@ -320,38 +360,76 @@ class ARScalePlumeDiagrams(base.DataSource):
         self.location = kwargs.get("transect_location.location")
         self.model = model
         self.AR_scale_calculated_by = AR_scale_calculated_by
-        super().__init__(metadata=metadata)
+        # Pass kwargs through so the base class parses/sets the "date" arg.
+        super().__init__(metadata=metadata, **kwargs)
 
-    def read(self):
+    def run(self):
+        # West-WRF has no v1 product (not run in real-time); use the legacy URL.
+        # It has a single product per plot type (no control/mean distinction).
+        if self.model == "West-WRF":
+            product = WEST_WRF_PLOT_PRODUCTS[self.plot_type]
+            return (
+                "https://cw3e.ucsd.edu/images/wwrf/images/ensemble/ARScale/"
+                f"{product}_{self._legacy_location()}.png"
+            )
 
-        if (
-            self.model == "U.S. National Model (GEFS)"
-            or self.model == "GFS Ensemble"
-            or self.model == "GEFS"
-        ):
-            model_url = "gefs"
-        elif (
-            self.model == "European Model (ECMWF)"
-            or self.model == "ECMWF EPS"
-            or self.model == "ECMWF"
-        ):
-            model_url = "ECMWF"
+        model_info = MODELS[self.model]
+        model = model_info["code"]
+        interval = model_info["cycle_interval"]
+        product = (
+            f"arscale_{PLOT_TYPE_CODES[self.plot_type]}_"
+            f"{CALC_CODES[self.AR_scale_calculated_by]}"
+        )
+        location = self._location_segment()
 
-        if self.AR_scale_calculated_by == "Control Forecast":
-            AR_scale_calculated_by = "Forecast_Control"
-        elif self.AR_scale_calculated_by == "Ensemble Mean":
-            AR_scale_calculated_by = "Forecast_Mean"
+        if self.date == "latest":
+            return self._resolve_latest_url(model, interval, product, location)
 
-        if self.plot_type == "Map":
-            return f"https://cw3e.ucsd.edu/images/{model_url}/ARScale/{self.transect_location}/{model_url.upper()}_ARScaleMap_{AR_scale_calculated_by}_{self.transect_location}_{self.location}.png"
+        # Validate the requested run cycle for the selected model.
+        if self.date.hour % interval != 0:
+            valid = ", ".join(f"{h:02d}Z" for h in range(0, 24, interval))
+            raise VisualizationError(
+                f"{self.model} model runs are only available at {valid}."
+            )
 
-        if self.AR_scale_calculated_by == "Control Forecast":
-            AR_scale_calculated_by = "Control"
-        elif self.AR_scale_calculated_by == "Ensemble Mean":
-            AR_scale_calculated_by = "Mean"
+        date_str = self.date.strftime("%Y%m%d%H")
+        return self._build_url(product, model, location, date_str)
 
-        if self.plot_type == "AR Scale and IVT Analysis/Forecast":
-            return f"https://cw3e.ucsd.edu/images/{model_url}/ARScale/{self.transect_location}/{model_url.upper()}_ARScale_Plume_{AR_scale_calculated_by}_{self.transect_location}_{self.location}.png"
+    def _location_segment(self):
+        """Build the "<transect>_<lat>N_<lon>W" path component from the selected
+        transect and the stored "<lat>_<lon360>" location value."""
+        lat_str, lon360_str = self.location.split("_")
+        lon_west = 360 - float(lon360_str)
+        return f"{self.transect_location}_{float(lat_str):.1f}N_{lon_west:.1f}W"
 
-        if self.plot_type == "AR Scale":
-            return f"https://cw3e.ucsd.edu/images/{model_url}/ARScale/{self.transect_location}/{model_url.upper()}_ARScale_Matrix_{AR_scale_calculated_by}_{self.transect_location}_{self.location}.png"
+    def _legacy_location(self):
+        """Build the legacy "<lat>-<lon360>" location token (e.g. "60-220")."""
+        return "-".join(_trim(p) for p in self.location.split("_"))
+
+    def _build_url(self, product, model, location, date_str):
+        return (
+            f"{BASE_URL}/{product}/v1/{model}/{location}/{date_str}/1/"
+            f"{product}__v1__{model}__{location}__{date_str}__1__F168.png"
+        )
+
+    def _resolve_latest_url(self, model, interval, product, location):
+        """Probe model run cycles backwards to find the newest available run."""
+        # Round the current time down to the nearest valid run cycle.
+        now = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
+        cycle = now.replace(hour=(now.hour // interval) * interval)
+
+        # Look back up to ~10 days worth of run cycles.
+        for _ in range((10 * 24) // interval):
+            date_str = cycle.strftime("%Y%m%d%H")
+            url = self._build_url(product, model, location, date_str)
+            try:
+                if requests.head(url, timeout=10).status_code == 200:
+                    return url
+            except requests.RequestException:
+                pass
+            cycle -= timedelta(hours=interval)
+
+        raise VisualizationError(
+            f"No AR Scale plume image found for {self.model} "
+            f"({self.plot_type}, {location}) in the last 10 days."
+        )

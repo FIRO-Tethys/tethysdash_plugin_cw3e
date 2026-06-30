@@ -1,4 +1,24 @@
-from intake.source import base
+from datetime import datetime, timedelta, timezone
+import requests
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
+from tethysapp.tethysdash.exceptions import VisualizationError
+
+BASE_URL = "https://cw3e.ucsd.edu/images"
+
+# Plot models served by the new v1 scheme -> model path code and run-cycle
+# interval (hours). GEFS runs every 6 hours; ECMWF and the combined product at
+# 00Z/12Z. West-WRF models have no v1 product and use the legacy URL below.
+NEW_SCHEME_MODELS = {
+    "GEFS": {"code": "GEFS_50", "cycle_interval": 6},
+    "ECMWF": {"code": "ECMWF_ENS", "cycle_interval": 12},
+    "GEFS_ECMWF": {"code": "GEFS_50_ECMWF_ENS", "cycle_interval": 12},
+}
+
+# West-WRF plume models -> legacy URL path prefix (no v1 product yet).
+LEGACY_MODEL_BASES = {
+    "WWRF": "wwrf/ensemble/IVTPlumes/West-WRF",
+    "WWRF_GEFS_ECMWF": "wwrf/ensemble/IVTPlumes/GEFS_ECMWF_West-WRF",
+}
 
 coastal_locations = [
     {"value": "60.0_220.0", "label": "60.0N 140.0W"},
@@ -301,19 +321,18 @@ west_wrf_interior = [
 ]
 
 
-class WestCoastIVTMagnitudePlumes(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class WestCoastIVTMagnitudePlumes(TethysDashPlugin):
     name = "cw3e_west_coast_ivt_magnitude_plumes"
-    visualization_tags = [
+    tags = [
         "cw3e",
         "ar",
         "plumes",
         "magnitude",
         "ivt",
     ]
-    visualization_description = "Diagrams that represent the integrated water vapor transport (IVT) magnitude forecast from each of the GEFS ensemble models (thin gray lines), the unperturbed GEFS control forecast (black line), the ensemble mean (green line), and plus or minus one standard deviation from the ensemble mean (red line (+), blue line (-), and gray shading). More information can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
-    visualization_args = {
+    description = "Diagrams that represent the integrated water vapor transport (IVT) magnitude forecast from each of the GEFS ensemble models (thin gray lines), the unperturbed GEFS control forecast (black line), the ensemble mean (green line), and plus or minus one standard deviation from the ensemble mean (red line (+), blue line (-), and gray shading). More information can be found at https://cw3e.ucsd.edu/iwv-and-ivt-forecasts/"
+    args = {
+        "date": "date",
         "visualization": ["Map", "Plot"],
         "model": [
             {
@@ -479,10 +498,10 @@ class WestCoastIVTMagnitudePlumes(base.DataSource):
             },
         ],
     }
-    visualization_group = "CW3E"
-    visualization_label = "West Coast IVT Magnitude Plumes"
-    visualization_type = "image"
-    visualization_attribution = "CW3E"
+    group = "CW3E"
+    label = "West Coast IVT Magnitude Plumes"
+    type = "image"
+    attribution = "CW3E"
 
     def __init__(self, visualization, model, metadata=None, **kwargs):
         # store important kwargs
@@ -492,26 +511,81 @@ class WestCoastIVTMagnitudePlumes(base.DataSource):
         self.transect_location = kwargs.get("model.transect_location")
         self.location = kwargs.get("model.transect_location.location")
 
-        super().__init__(metadata=metadata)
+        # Pass kwargs through so the base class parses/sets the "date" arg.
+        super().__init__(metadata=metadata, **kwargs)
 
-    def read(self):
+    def run(self):
+        transect = self.transect_location
+        if transect == "intwestWWRF":
+            transect = "intwest"
 
-        url_location = self.model
-        if self.model == "GEFS":
-            url_location = "gefs/IVT_Plumes/GEFS"
-        elif self.model == "ECMWF":
-            url_location = "ECMWF/IVT_Ensemble_Plumes/ECMWF"
-        elif self.model == "GEFS_ECMWF":
-            url_location = "ECMWF/IVT_Ensemble_Plumes/GEFS_ECMWF"
-        elif self.model == "WWRF":
-            url_location = "wwrf/ensemble/IVTPlumes/West-WRF"
-        elif self.model == "WWRF_GEFS_ECMWF":
-            url_location = "wwrf/ensemble/IVTPlumes/GEFS_ECMWF_West-WRF"
-
+        # The location map has no v1 product; keep it on the legacy URL.
         if self.visualization == "Map":
-            return f"https://cw3e.ucsd.edu/images/gefs/images/Plume_maps/Plume_maps_{self.transect_location}_{self.location}.png"
+            return (
+                f"{BASE_URL}/gefs/images/Plume_maps/"
+                f"Plume_maps_{transect}_{self.location}.png"
+            )
 
-        if self.transect_location == "intwestWWRF":
-            self.transect_location = "intwest"
+        # West-WRF plume models have no v1 product; keep them on the legacy URL.
+        if self.model in LEGACY_MODEL_BASES:
+            base = LEGACY_MODEL_BASES[self.model]
+            return (
+                f"{BASE_URL}/{base}_IVTPlume_"
+                f"{self.forecast_length}_{transect}_{self.location}.png"
+            )
 
-        return f"https://cw3e.ucsd.edu/images/{url_location}_IVTPlume_{self.forecast_length}_{self.transect_location}_{self.location}.png"
+        # v1 scheme for GEFS / ECMWF / GEFS & ECMWF.
+        model_info = NEW_SCHEME_MODELS[self.model]
+        model = model_info["code"]
+        interval = model_info["cycle_interval"]
+        location = self._location_segment()
+        forecast_hour = f"F{int(self.forecast_length) * 24:03d}"
+
+        if self.date == "latest":
+            return self._resolve_latest_url(model, interval, location, forecast_hour)
+
+        # Validate the requested run cycle for the selected model.
+        if self.date.hour % interval != 0:
+            valid = ", ".join(f"{h:02d}Z" for h in range(0, 24, interval))
+            raise VisualizationError(
+                f"{self.model} model runs are only available at {valid}."
+            )
+
+        date_str = self.date.strftime("%Y%m%d%H")
+        return self._build_url(model, location, date_str, forecast_hour)
+
+    def _location_segment(self):
+        """Build the "<lat>N_<lon>W" path component from the stored
+        "<lat>_<lon360>" location value."""
+        lat_str, lon360_str = self.location.split("_")
+        lon_west = 360 - float(lon360_str)
+        return f"{float(lat_str):.1f}N_{lon_west:.1f}W"
+
+    def _build_url(self, model, location, date_str, forecast_hour):
+        return (
+            f"{BASE_URL}/ivt_ensembleplumes/v1/{model}/{location}/{date_str}/1/"
+            f"ivt_ensembleplumes__v1__{model}__{location}__"
+            f"{date_str}__1__{forecast_hour}.png"
+        )
+
+    def _resolve_latest_url(self, model, interval, location, forecast_hour):
+        """Probe model run cycles backwards to find the newest available run."""
+        # Round the current time down to the nearest valid run cycle.
+        now = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
+        cycle = now.replace(hour=(now.hour // interval) * interval)
+
+        # Look back up to ~10 days worth of run cycles.
+        for _ in range((10 * 24) // interval):
+            date_str = cycle.strftime("%Y%m%d%H")
+            url = self._build_url(model, location, date_str, forecast_hour)
+            try:
+                if requests.head(url, timeout=10).status_code == 200:
+                    return url
+            except requests.RequestException:
+                pass
+            cycle -= timedelta(hours=interval)
+
+        raise VisualizationError(
+            f"No IVT plume image found for {self.model} "
+            f"({location}, {forecast_hour}) in the last 10 days."
+        )

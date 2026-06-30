@@ -1,4 +1,4 @@
-from intake.source import base
+from tethysapp.tethysdash.plugin_helpers import TethysDashPlugin
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -23,32 +23,24 @@ def get_stations():
         return []
 
 
-class PhotoExplorerDataTimeSeries(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class PhotoExplorerDataTimeSeries(TethysDashPlugin):
     name = "usgs_photo_explorer_time_series"
-    visualization_args = {
+    args = {
         "station": get_stations(),
         "start_date": "date",
         "end_date": "date",
     }
-    visualization_group = "USGS"
-    visualization_label = "Station Data Time Series"
-    visualization_type = "plotly"
-    visualization_tags = [
+    group = "USGS"
+    label = "Station Data Time Series"
+    type = "plotly"
+    tags = [
         "usgs",
         "time series",
     ]
-    visualization_attribution = "USGS Photo Explorer"
-    visualization_description = "Plots time series data from the photo explorer API"
+    attribution = "USGS Photo Explorer"
+    description = "Plots time series data from the photo explorer API"
 
-    def __init__(self, station, start_date, end_date, metadata=None, **kwargs):
-        self.station = station
-        self.start_date = start_date
-        self.end_date = end_date
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
         # First, get the station info to retrieve the timezone
         station_url = f"https://drekttvuk1.execute-api.us-west-2.amazonaws.com/api/public/stations/{self.station}/"
         station_req = requests.get(station_url)

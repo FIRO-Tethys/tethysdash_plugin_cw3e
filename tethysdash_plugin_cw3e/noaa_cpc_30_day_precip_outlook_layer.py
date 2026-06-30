@@ -1,23 +1,17 @@
-from intake.source import base
-from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder
+from tethysapp.tethysdash.plugin_helpers import LayerConfigurationBuilder, TethysDashPlugin
 
 
-class NOAACPC_30_DayPrecipOutlookLayer(base.DataSource):
-    container = "python"
-    version = "0.0.1"
+class NOAACPC_30_DayPrecipOutlookLayer(TethysDashPlugin):
     name = "noaa_cpc_30_day_precip_outlook_layer"
-    visualization_args = {}
-    visualization_group = "NOAA"
-    visualization_label = "CPC 30 Day Precipitation Outlook"
-    visualization_type = "map_layer"
-    visualization_tags = ["noaa", "map", "map_layer", "precipitation"]
-    visualization_description = "The CPC Monthly Precipitation Outlook Web Service consist of NWS' Climate Prediction Center's Forecasted Precipitation Probabilities for US Weather Outlook polygon layer for One Calendar Month. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_mthly_precip_outlk/MapServer"
-    visualization_attribution = "NOAA"
+    args = {}
+    group = "NOAA"
+    label = "CPC 30 Day Precipitation Outlook"
+    type = "map_layer"
+    tags = ["noaa", "map", "map_layer", "precipitation"]
+    description = "The CPC Monthly Precipitation Outlook Web Service consist of NWS' Climate Prediction Center's Forecasted Precipitation Probabilities for US Weather Outlook polygon layer for One Calendar Month. More information can be found at https://mapservices.weather.noaa.gov/vector/rest/services/outlooks/cpc_mthly_precip_outlk/MapServer"
+    attribution = "NOAA"
 
-    def __init__(self, metadata=None, **kwargs):
-        super().__init__(metadata=metadata)
-
-    def read(self):
+    def run(self):
         """
         Return map layer configuration
         """
