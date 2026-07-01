@@ -135,22 +135,31 @@ class ARLandfall(TethysDashPlugin):
 
     def _resolve_latest_url(self, model, product, location, forecast_hour):
         """Probe synoptic cycles backwards to find the newest available image."""
-        # Round the current time down to the nearest 6-hour synoptic cycle.
-        now = datetime.now(timezone.utc)
-        cycle = now.replace(hour=(now.hour // 6) * 6, minute=0, second=0, microsecond=0)
+        # GEFS runs every 6 hours (00/06/12/18Z); ECMWF and the difference at
+        # 00/12Z. Round the current time down to the nearest valid run cycle.
+        interval = 6 if self.data_source == "GFS Ensemble" else 12
+        now = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
+        cycle = now.replace(hour=(now.hour // interval) * interval)
 
-        # Look back up to ~10 days (40 six-hour cycles).
-        for _ in range(40):
+        # Look back up to ~10 days worth of run cycles.
+        for _ in range((10 * 24) // interval):
             date_str = cycle.strftime("%Y%m%d%H")
             url = self._build_url(model, product, location, date_str, forecast_hour)
             try:
                 if requests.head(url, timeout=10).status_code == 200:
                     return url
             except requests.RequestException:
-                # Site unreachable (e.g. a blocked IP); assume the most
-                # recent cycle's image exists instead of probing every cycle.
-                return url
-            cycle -= timedelta(hours=6)
+                # Site unreachable (e.g. a blocked IP). CW3E products lag their
+                # synoptic cycle by several hours, so fall back to the newest
+                # cycle ~12h old (which has realistically finished) instead of
+                # the current one, which usually is not published yet. Rounded
+                # to the model's cycle step.
+                fallback = now - timedelta(hours=12)
+                fallback_str = fallback.replace(
+                    hour=(fallback.hour // interval) * interval,
+                ).strftime("%Y%m%d%H")
+                return url.replace(date_str, fallback_str)
+            cycle -= timedelta(hours=interval)
 
         raise VisualizationError(
             f"No AR Landfall Tool image found for {self.data_source} "

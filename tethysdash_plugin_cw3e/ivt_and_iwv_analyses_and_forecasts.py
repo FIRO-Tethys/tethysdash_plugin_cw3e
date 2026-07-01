@@ -123,9 +123,19 @@ class IVTAndIWVAnalysesAndForecasts(TethysDashPlugin):
                 if requests.head(url, timeout=10).status_code == 200:
                     return url
             except requests.RequestException:
-                # Site unreachable (e.g. a blocked IP); assume the most
-                # recent cycle's image exists instead of probing every cycle.
-                return url
+                # Site unreachable (e.g. a blocked IP). CW3E products lag
+                # their synoptic cycle by several hours, so fall back to
+                # the newest cycle ~12h old (which has realistically
+                # finished) instead of the current one, which usually is
+                # not published yet. Rounded to the model's cycle step.
+                fallback = now - timedelta(hours=12)
+                fallback_str = fallback.replace(
+                    hour=(fallback.hour // interval) * interval,
+                    minute=0,
+                    second=0,
+                    microsecond=0,
+                ).strftime("%Y%m%d%H")
+                return url.replace(date_str, fallback_str)
             cycle -= timedelta(hours=interval)
 
         raise VisualizationError(
