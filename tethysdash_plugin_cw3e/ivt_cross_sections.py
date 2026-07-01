@@ -74,7 +74,7 @@ class IVTCrossSections(TethysDashPlugin):
             date_str = cycle.strftime("%Y%m%d%H")
             url = self._build_url(model, location, date_str, forecast_hour)
             try:
-                if requests.head(url, timeout=10).status_code == 200:
+                if requests.head(url, timeout=(3, 5)).status_code == 200:
                     return url
             except requests.RequestException:
                 # Site unreachable (e.g. a blocked IP). CW3E products lag
