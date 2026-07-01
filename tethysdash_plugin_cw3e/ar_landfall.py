@@ -137,9 +137,7 @@ class ARLandfall(TethysDashPlugin):
         """Probe synoptic cycles backwards to find the newest available image."""
         # Round the current time down to the nearest 6-hour synoptic cycle.
         now = datetime.now(timezone.utc)
-        cycle = now.replace(
-            hour=(now.hour // 6) * 6, minute=0, second=0, microsecond=0
-        )
+        cycle = now.replace(hour=(now.hour // 6) * 6, minute=0, second=0, microsecond=0)
 
         # Look back up to ~10 days (40 six-hour cycles).
         for _ in range(40):
@@ -149,7 +147,9 @@ class ARLandfall(TethysDashPlugin):
                 if requests.head(url, timeout=10).status_code == 200:
                     return url
             except requests.RequestException:
-                pass
+                # Site unreachable (e.g. a blocked IP); assume the most
+                # recent cycle's image exists instead of probing every cycle.
+                return url
             cycle -= timedelta(hours=6)
 
         raise VisualizationError(

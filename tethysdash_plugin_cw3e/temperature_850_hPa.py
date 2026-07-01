@@ -98,7 +98,9 @@ class Temperature850hPA(TethysDashPlugin):
                 if requests.head(url, timeout=10).status_code == 200:
                     return url
             except requests.RequestException:
-                pass
+                # Site unreachable (e.g. a blocked IP); assume the most
+                # recent cycle's image exists instead of probing every cycle.
+                return url
             cycle -= timedelta(hours=interval)
 
         raise VisualizationError(
