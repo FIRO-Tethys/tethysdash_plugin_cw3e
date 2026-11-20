@@ -1,0 +1,11 @@
+{
+  "integration_gates": [
+    {"name": "unit", "commands": ["python -m pytest tests -q", "pytest"]},
+    {
+      "name": "lint",
+      "commands": [
+        "python -m flake8 tests tethysdash_plugin_cw3e/radiosonde_sites.py tethysdash_plugin_cw3e/synoptic_surface_conditions.py tethysdash_plugin_cw3e/previous_launch_skewt.py"
+      ]
+    }
+  ]
+}
