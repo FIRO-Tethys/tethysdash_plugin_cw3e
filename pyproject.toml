@@ -62,6 +62,7 @@ cw3e_500_hpa_vorticity = "tethysdash_plugin_cw3e.vorticity_500_hPa:Vorticity500h
 cw3e_850_hpa_temperature = "tethysdash_plugin_cw3e.temperature_850_hPa:Temperature850hPA"
 cw3e_synoptic_surface_conditions = "tethysdash_plugin_cw3e.synoptic_surface_conditions:SynopticSurfaceConditions"
 cw3e_previous_launch_skewt = "tethysdash_plugin_cw3e.previous_launch_skewt:PreviousLaunchSkewT"
+nws_radar_base_reflectivity_layer = "tethysdash_plugin_cw3e.nws_radar_layer:NWSRadarLayer"
 
 
 
