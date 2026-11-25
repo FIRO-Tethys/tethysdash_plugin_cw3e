@@ -63,6 +63,7 @@ cw3e_850_hpa_temperature = "tethysdash_plugin_cw3e.temperature_850_hPa:Temperatu
 cw3e_synoptic_surface_conditions = "tethysdash_plugin_cw3e.synoptic_surface_conditions:SynopticSurfaceConditions"
 cw3e_previous_launch_skewt = "tethysdash_plugin_cw3e.previous_launch_skewt:PreviousLaunchSkewT"
 nws_radar_base_reflectivity_layer = "tethysdash_plugin_cw3e.nws_radar_layer:NWSRadarLayer"
+cw3e_launch_site_ar_scale_plume = "tethysdash_plugin_cw3e.launch_site_ar_plume:LaunchSiteARScalePlume"
 
 
 

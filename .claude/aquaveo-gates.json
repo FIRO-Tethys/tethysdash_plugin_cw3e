@@ -4,7 +4,7 @@
     {
       "name": "lint",
       "commands": [
-        "python -m flake8 tests tethysdash_plugin_cw3e/radiosonde_sites.py tethysdash_plugin_cw3e/synoptic_surface_conditions.py tethysdash_plugin_cw3e/previous_launch_skewt.py tethysdash_plugin_cw3e/nws_radar_layer.py"
+        "python -m flake8 tests tethysdash_plugin_cw3e/radiosonde_sites.py tethysdash_plugin_cw3e/synoptic_surface_conditions.py tethysdash_plugin_cw3e/previous_launch_skewt.py tethysdash_plugin_cw3e/nws_radar_layer.py tethysdash_plugin_cw3e/launch_site_ar_plume.py"
       ]
     }
   ]
